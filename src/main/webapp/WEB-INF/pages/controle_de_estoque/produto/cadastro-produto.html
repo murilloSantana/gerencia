@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" 
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" type="text/css"  th:href="@{/static/css/styleReset.css}">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" th:href="@{/static/fonts/font-awesome/css/font-awesome.min.css}">
+
+	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!--Import materialize.css-->
+	<link rel="stylesheet" th:href="@{/static/css/materialize.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}">
+	<title>Gerencia</title>
+	
+</head>
+<body>
+
+	<div th:replace="../../static/templates/header :: header"></div>
+
+
+	<div class="row">
+		<div class="col s12 m8 push-m2">
+			<div class="card ">
+				
+				<div class="card-content white-text teal lighten-1">
+					
+					<div class="panel-title left">
+						<span class="flow-text">Cadastro de Produtos</span>
+					</div>
+					
+					
+					<div class="right">
+						
+						<a  href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Download"><i class="material-icons ">file_download</i></a>
+						
+						<a  href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Imprimir"><i class="material-icons ">print</i></a>
+						
+						<a  href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Importar"><i class="material-icons ">file_upload</i></a>
+						
+						<a  href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ajudar"><i class="material-icons ">help</i></a>
+						
+					</div>
+					
+					<br>
+					
+				</div>
+				<div class="card-action cadastro">
+					
+					<div class="row">
+						<div class="col s6 m4 l3">
+							<label>Código de Barras</label>
+							<input type="text" name="" placeholder="Código de Barras" onkeyup="verificaCodigoBarras(this.value)" maxlength="14"/>
+							
+						</div>
+
+					</div>
+					<form th:action="@{/salvarProduto}" method="post" th:object="${produto}">
+							<div class="row">
+								<div class=" col s6 m4 l3">	
+									<div class="caixa-img" th:style="'background-image:url('+@{/static/img/foto-produto.png}+');'">
+									</div>
+								</div>
+								<div class="col s8">
+								  <div class="row">
+									<div class="col s6">
+										<label for="cad-nome-prod">Nome</label>
+										<input id="cad-nome-prod" type="text" placeholder="Nome" th:field="*{nomeProduto}">
+									</div>	
+									
+									<div class=" col s6">
+										<label for="cad-preco-compra">Preço de Compra</label>
+										<input id="cad-preco-compra" type="text"  placeholder="Valor de Compra" th:field="*{precoCompraNoFormatado}"  onkeyup="validadorMonetario(this.value,this.id)">
+									</div>		
+							  </div>
+							  <div class="row">
+							  		<div class="input-field col s6">
+										<select multiple id="cad-categoria" th:field="*{categoriaId}">
+											<option value="0" disabled selected>Selecione as Categorias</option>
+											<option th:value="${categoria.chaveCategoria}" th:each="categoria : ${allCategorias}" th:text="${categoria.nome}"  ></option>
+														
+										</select>
+										<label for="cad-categoria">Categorias</label>
+									</div>
+								
+								<!-- <div class="input-field col s6">
+										<select id="cad-unidade">
+										    <option value="" disabled selected>Selecione uma Unidade</option>
+											<option value="1">Option 1</option>
+											<option value="2">Option 2</option>
+											<option value="3">Option 3</option>	
+										</select>
+										<label for="cad-unidade">Unidade</label>
+									</div> -->	
+							   </div>
+							   <div class="row">
+									<div class="col s6">
+										<label for="cad-preco-venda">Preço de Venda</label>
+										<input id="cad-preco-venda" type="text" th:field="*{precoUnitarioNoFormatado}" placeholder="Valor Unitário" onkeyup="validadorMonetario(this.value,this.id)">
+									</div>
+									
+									<div class="col s6">
+											<a class="link-add-info"  th:onclick="'inserirInformacoesTecnicas()'" >Informações Técnicas <i class="material-icons add-info">add_box</i></a>
+									</div>	
+								</div>
+								<div class="col s12">
+									<label for="cad-desc-prod" id="cad-label-desc" >Descrição</label>
+									<textarea  id="cad-desc-prod" th:field="*{descricaoProduto}" placeholder="Insira um descrição do Produto" class="materialize-textarea"></textarea>
+								</div>
+								
+								<div class="col s3 right">
+										<button class="btn teal darken-1" type="submit">Finalizar Cadastro</button>
+								</div>
+							</div>
+						</div>
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+					</form>
+				</div>
+			</div>
+		</div>		
+	</div>
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script th:src="@{/static/css/materialize.min.js}"></script>
+	<script type="text/javascript" th:src="@{static/js/libs/lib.js}"></script>
+</body>
+</html>

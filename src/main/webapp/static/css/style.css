@@ -1,0 +1,332 @@
+nav .brand-logo {
+	background-color: white;
+	margin-left: 5%;
+	padding: 0 15px;
+	color: #00897B;
+	padding-top: -20px;
+}
+
+.page-content {
+	margin-top: 5%;
+}
+
+.card i, a {
+	color: white;
+	position: relative;
+}
+
+.card i.add-info, a.link-add-info{
+	top: 5px;
+	color: #ffab40;
+	margin-top: 4%;
+	cursor: pointer;
+}
+.card i.add-info:hover, a.link-add-info:hover{
+	color: #ffd8a6;
+}
+.box-search {
+	position: relative;
+}
+
+#input-search {
+	padding: 0;
+	height: 25px;
+	background-color: white;
+	padding-right: 10%;
+}
+
+#icon-search {
+	position: absolute;
+	z-index: 1;
+	left: 85%;
+	top: 0.1%;
+	color: #7B7B7B;
+	cursor: pointer;
+	width: 0;
+	padding-left: 9%;
+}
+
+#submenu-fluxo-caixa, #submenu-fluxo-caixa a, #submenu-controle-vendas,
+#submenu-controle-vendas a,#submenu-tempo,#submenu-tempo a {
+	margin-top: 4.7%;
+	color: white;
+	min-width: 15%;
+}
+
+.card-action button {
+	margin-bottom: 2%;
+	margin-left: 5%;
+}
+
+.panel-title {
+	font-size: 20px;
+	padding: 10px;
+	line-height: 40px;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: absolute;
+}
+
+#icon-alarm i {
+	color: black;
+	left: -25px;
+	position: relative;
+}
+#icon-swap i{
+	color: black;
+	left: -65px;
+	position: relative;
+}
+#icon-swap i {
+	top: -10px;
+	position: relative;
+}
+
+#icon-alarm .icon-green, #icon-swap .icon-green {
+	color: #26A69A;
+}
+
+.alarm-stock {
+	font-size: 12px;
+}
+
+.btn, .btn-large, .btn-flat {
+	padding: 0 1rem;
+	font-size: 10px;
+}
+
+.large {
+	padding: 0;
+}
+
+i#icon-categoria {
+	font-size: 3rem;
+}
+
+
+table.bordered  tr, table.bordered th, table.bordered td {
+	border: 1px solid #d0d0d0;
+}
+
+table.table-venda thead {
+	border: none;
+}
+
+table.table-venda .column-preco {
+	font-size: 22px;
+}
+
+table.table-venda input {
+	padding: 0;
+	height: 25px;
+	border: 1px solid #9e9e9e;
+}
+
+table.table-venda input:focus {
+	border: 1px solid #26a69a;
+	box-shadow: 0 1px 0 0 #26a69a;
+}
+
+table.table-venda .btn {
+	margin: 0;
+}
+
+table.table-venda tfoot {
+	
+}
+
+.divisoria {
+	margin-bottom: 5%;
+}
+
+.card-title-endereco, .card-title-pagamento {
+	font-size: 18px;
+}
+
+.card-content-endereco .flow-text, .venda-info .flow-text, .title-relacao-cat.flow-text {
+	font-size: 14px;
+}
+.title-relacao-cat.flow-text{
+	margin-top: 18px;	
+}
+.card-content-endereco span:after {
+	content: "";
+	display: block;
+	clear: both;
+	margin-top: 3%;
+}
+
+.card-content-endereco a {
+	content: "";
+	display: block;
+	clear: both;
+	margin-top: 6%;
+}
+
+.venda-info span:after {
+	content: "";
+	display: block;
+	clear: both;
+	margin-top: 6%;
+}
+
+.venda-forma-pagamento ul li:after {
+	content: "";
+	display: block;
+	clear: both;
+	margin-top: 5%;
+}
+
+#produto-cadastro i, .modal i{
+	color: black;
+}
+
+#produto-cadastro, .modal-cadastro-title 
+{
+	content: "";
+	display: block;
+	clear: both;
+	font-size: 18px;
+	margin-top: 10%;
+	margin-left: 1%;
+}
+
+.modal hr, #produto-cadastro hr {
+	border-top: 1px solid #d0d0d0;
+}
+
+.modal {
+	background-color: white;
+}
+
+.cadastro input,.cadastro textarea.materialize-textarea, input[type=search] {
+	padding: 0;
+	height: 30px;
+	border: 1px solid #AFAFAF;
+	border-radius: 3px;
+}
+.cadastro textarea.materialize-textarea:focus,.cadastro textarea.materialize-textarea:active
+{
+	border: 1px solid #26a69a;
+	box-shadow: 0px 0px 5px 0px #26a69a;
+	height: 78px;
+	min-height: 78px;  
+}
+.cadastro textarea.materialize-textarea:enabled{
+	border: 1px solid #AFAFAF;
+	height: 78px;
+	min-height: 78px;  
+}
+input[type=search]{
+	border-color: white;
+	background-color: white;
+	padding-right: 14%;
+}
+
+input[type=search]:focus:not([readonly]){
+	border: 1px solid white;
+	box-shadow: 0px 0px 5px 0px white;
+	
+}
+
+.box-search-menu{
+	position: relative;	
+	right: 14%;
+}
+
+#icon-search-menu  {
+	position: absolute;	
+	z-index: 1;
+	margin-top: -35%;
+	left: 85%;
+	padding-left: 12%;
+}
+
+.cadastro input:focus,.cadastro input[type=text]:focus:not([readonly]) {
+	border: 1px solid #26a69a;
+	box-shadow: 0px 0px 5px 0px #26a69a;
+}
+
+.cadastro label {
+	font-size: 14px;
+}
+
+.cadastro .caixa-img {
+	height : 190px;
+	background-position: center;
+	background-repeat:no-repeat;
+	border: 1px solid #AFAFAF;
+	-webkit-box-shadow: inset 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: inset 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+	box-shadow: inset 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+}
+
+.cadastro .caixa-img.col.s3{
+	max-width:160px;
+	margin-left:1.5%;
+	
+}
+
+.cadastro textarea.materialize-textarea{
+	height: 76px;
+}
+
+input[type=text] + span:after,
+input[type=text]:focus + span:after
+{
+  content: attr(data-label);
+  opacity: 1;
+  font-size:12px;  
+}
+input[type=text]{
+	margin: 0 0 0 0;
+	content: attr(data-label);	
+}
+.btn-add-lista{
+	margin-top: 5%;
+}
+.btn-form{
+	margin-top: 3%;
+}
+#categoria-cadastro.modal{
+	  width: 25%;
+	  height: 62%;
+} 
+
+.btn-table a, .btn-table button{
+    height: 24px;
+    line-height: 24px;
+    padding: 0 0.5rem;
+    
+}
+.btn-table .btn-txt{
+	font-size:9px;
+}
+#categoria-cadastro .btn-floating i {
+    width: inherit;
+    display: inline-block;
+    text-align: center;
+    font-size: 1.0rem;
+    line-height: 30px;
+    color:black;
+}
+#categoria-cadastro a.btn-floating.btn-close{
+  width: 30px;
+  height: 30px;
+  margin-top: -12%;
+  margin-right: 2%;
+}
+.categoria-table  th:last-child{
+	width: 25%;
+}
+@media only screen and (max-width: 485px) {
+#icon-swap i {
+	color: black;
+	left: -25px;
+	margin-top:10%;
+	position: relative;
+}
+
+}

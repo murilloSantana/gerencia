@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/static/css/styleReset.css}">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet"
+	th:href="@{/static/fonts/font-awesome/css/font-awesome.min.css}">
+
+<link href="http://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<!--Import materialize.css-->
+<link rel="stylesheet" th:href="@{/static/css/materialize.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/static/css/style.css}">
+</head>
+<body>
+
+	<div th:replace="../../static/templates/header :: header"></div>
+
+	<div class="row">
+		<div class="col s12 m8 push-m2">
+			<div class="card ">
+
+				<div class="card-content white-text teal lighten-1">
+
+					<div class="panel-title left">
+						<span class="flow-text">Tempos Ativos</span>
+					</div>
+
+
+					<div class="right">
+
+						<a href="" class="tooltipped" data-position="bottom"
+							data-delay="50" data-tooltip="Download"><i
+							class="material-icons ">file_download</i></a> <a href=""
+							class="tooltipped" data-position="bottom" data-delay="50"
+							data-tooltip="Imprimir"><i class="material-icons ">print</i></a>
+
+						<a href="" class="tooltipped" data-position="bottom"
+							data-delay="50" data-tooltip="Importar"><i
+							class="material-icons ">file_upload</i></a> <a href=""
+							class="tooltipped" data-position="bottom" data-delay="50"
+							data-tooltip="Ajudar"><i class="material-icons ">help</i></a>
+
+					</div>
+
+					<br>
+
+				</div>
+				<div class="card-action">
+					<div class="row">
+
+						<form action="" class="">
+							<div class="input-field left black-text col s5 m4 l3">
+								<select id="cad-maq-tmp">
+									<option value="PS3">PS3</option>
+								</select>
+								<label for="cad-num-tmp">Número da Máquina</label>	
+							</div>
+							<div class="input-field left black-text col s5 m4 l3">
+								<select id="cad-min-tmp">
+									<option value="PS3">PS3</option>
+								</select>
+								<label for="cad-min-tmp">Minutos</label>	
+							</div>
+							<div class="input-field left black-text col s5 m4 l3">
+								<input id="cad-pre-tmp" class="" type="text">
+								<label for="cad-pre-tmp">Preço</label>
+							</div>
+						
+							<button class="btn btn-form col s4 m4 l2 offset-l1">Salvar</button>
+							
+						</form>					
+						
+						
+
+				 	 </div>
+				 	
+						<div class="row icon-black">
+						  <ul class="collapsible" data-collapsible="expandable">
+						    <li >
+						      <div class="collapsible-header">Máquina 1
+						      	 <a id="btn-prod" onclick="showSubLista(this.id)"><i class="material-icons right">shopping cart</i></a>
+							     <a id="btn-add" onclick="showSubLista(this.id)"><i class="material-icons right">add</i></a>
+						      </div>
+						      <div class="collapsible-body">
+								<p id="conteudo-add">Novo.</p>
+								<p id="conteudo-prod">produto.</p>
+							  </div>
+						    </li>
+						    <li>
+						      <div class="collapsible-header">Máquina 3<a><i class="material-icons right">add</i></a></div>
+						      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+						    </li>
+						    <li>
+						      <div class="collapsible-header">Máquina 2<a><i class="material-icons right">add</i></a></div>
+						      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+						    </li>
+						  </ul>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	<script type="text/javascript"
+		src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script th:src="@{/static/css/materialize.js}"></script>
+	<script type="text/javascript" th:src="@{static/js/libs/lib.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt_BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/static/css/styleReset.css}">
+	<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet"
+	th:href="@{/static/fonts/font-awesome/css/font-awesome.min.css}">
+
+	<link href="http://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+	<!--Import materialize.css-->
+	<link rel="stylesheet" th:href="@{/static/css/materialize.css}">
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/static/css/style.css}">
+</head>
+<body>
+
+	<div th:replace="../../static/templates/header :: header"></div>
+
+	<div class="row">
+		<div class="col s10 offset-s1">
+			<div class="card ">
+				<div class="card-content white-text teal lighten-1">
+					
+					<div class="panel-title left">
+						<span class="flow-text">Gerenciamento de Vendas</span>
+					</div>
+
+					<div class="right">
+
+						<a  href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Download"><i class="material-icons ">file_download</i></a>
+						
+						<a  href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Imprimir"><i class="material-icons ">print</i></a>
+
+						<a  href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Importar"><i class="material-icons ">file_upload</i></a>
+
+						<a  href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ajudar"><i class="material-icons ">help</i></a>
+
+					</div>
+
+					<br>
+
+				</div>
+				<div class="card-action">
+
+					<form>
+						<div class="row">
+							<span class="flow-text">Pessoa Física ou Jurídica?</span>
+						</div>
+						<div class="row">
+							<div class=" col s12 m2 l1">
+								<input type="radio" name="vendas-tipo-pessoa"
+								id="vendas-pessoa-fisica" class="with-gap"> <label
+								for="vendas-pessoa-fisica">Física</label>
+							</div>
+							<div class=" col s12 m2 l1">
+								<input type="radio" name="vendas-tipo-pessoa"
+								id="vendas-pessoa-juridica" class="with-gap"> 
+								<label class="flow-text" for="vendas-pessoa-juridica">Jurídica</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m4 l3">
+								<input type="text" id="vendas-nome-cliente" class=""> 
+								<label for="vendas-nome-cliente">Nome</label>
+							</div>
+							<div class="input-field col s12 m4 l3">
+								<input type="text" id="vendas-cpf-cliente" onkeyup="validadorCpf(this.value, this.id)" maxlength="11"> 								
+								<label for="vendas-cpf-cliente" class="label-info" >CPF</label>
+							</div>
+						</div>
+					</form>
+
+					
+					<div class="row">
+						
+						<h5>Itens</h5>
+						<hr>
+					</div>
+					<div class="row col s12">
+						<div class="input-field col s12 m4 l3">
+							<input type="text" id="search-item-venda" />
+							<span id="label-footer " data-label="Pesquise o nome, descrição ou código de Barras do Produto"> </span>
+							<label for="search-item-venda"  >Informe o Produto</label>
+						</div>
+						<div class="input-field col s12 m4 l3">
+							<button class="btn btn-add-lista waves-effect waves-light">Adicionar a lista</button>
+						</div>
+					</div>
+					<div class="row">	
+						<div class="col s12">
+							<table class="responsive-table centered highlight">
+								<thead>
+									<tr>
+										<th class="">Quantidade</th>
+										<th class="">Nome do Produto</th>
+										<th class="">Valor Unitário</th>
+										<th class="">Sub-Total</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>2</td>
+										<td>Coca-cola</td>
+										<td>2</td>
+										<td>4</td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>Coca-cola</td>
+										<td>2</td>
+										<td>4</td>
+									</tr>
+								</tbody>
+								
+							</table>
+						</div>
+						
+					</div>
+					
+					<div class="row">
+						<div  class="col s12 m6 l5">
+							<div class="card">
+								<div class="card-content">
+									<span class="card-title-pagamento">Formas de
+										Pagamento</span>
+									</div>
+									
+									<div class="card-action">
+										<div class="row">
+											
+											<form class="venda-forma-pagamento">
+												<ul class="col s12 m5 l6">
+													<li>
+														<input type="radio" name="forma-pagamento"
+														class="with-gap" id="dinheiro"> 
+														<label for="dinheiro" class="flow-text">Dinheiro</label>
+													</li>
+													<li>
+														<input type="radio" name="forma-pagamento"
+														class="with-gap" id="boleto"> 
+														<label for="boleto" class="flow-text">Boleto</label>
+													</li>
+													<li>
+														<input type="radio" name="forma-pagamento"
+														class="with-gap" id="vale"> 
+														<label for="vale" class="flow-text">Vale</label>																	
+													</li>
+													<li>
+														<input type="radio" name="forma-pagamento"
+														class="with-gap" id="credito"> 
+														<label for="credito" class="flow-text">Cartão de Crédito</label>
+													</li>
+													
+												</ul>
+												
+												<ul class="col s12 m6 l6">
+													<li>
+														<input type="radio" name="forma-pagamento"
+														class="with-gap" id="cheque"> 
+														<label for="cheque" class="flow-text">Cheque</label>
+													</li>
+													<li>
+														<input type="radio" name="forma-pagamento"
+														class="with-gap" id="transferencia"> 
+														<label for="transferencia" class="flow-text">Transferência</label>
+													</li>
+													<li>
+														<input type="radio" name="forma-pagamento"
+														class="with-gap" id="deposito">
+														<label for="deposito" class="flow-text">Depósito</label>
+													</li>
+													<li>
+														<input type="radio" name="forma-pagamento"
+														class="with-gap" id="debito"> 
+														<label for="debito" class="flow-text">Cartão de Débito</label>
+
+													</li>
+												</ul>
+											</form>
+											
+										</div>
+										
+									</div>
+								</div>
+							</div>
+							<div class="col s12 m5 l4 right venda-info"><span>SubTotal: R$ 40,00</span>
+								<span class="flow-text">Desconto: R$ 40,00</span> 
+								<span class="flow-text">Frete: R$ 0,00</span> 
+								<span class="flow-text">Juros: 0,00%</span>
+								<span class="flow-text">Outros: R$ 0,00 </span> 
+								<span class="flow-text"><b>TOTAL: R$ 40,00</b></span>
+							</div>
+						</div>
+						<hr class="divisoria">
+
+						<div class="row">
+							<div class="card col s12 m4 l3">
+								<div class="card-content">
+									<span class="card-title-endereco">Endereço de Entrega</span>
+								</div>
+
+								<div class="card-action card-content-endereco">
+									<span class="flow-text"><b>Murillo Costa Santana Ferreira</b></span> 
+									<span class="flow-text">RUA da Alfândega, 91, 9º andar - senior solution Centro</span> 
+									<span class="flow-text">Rio de Janeiro - RJ</span> 
+									<span class="flow-text">CEP 20070-003</span>
+									<a href="" class="flow-text">Alterar	Endereço</a>
+								</div>
+							</div>
+
+							<div class="card col s12 m4 l3 offset-l1">
+								<div class="card-content">
+									<span class="card-title-endereco">Endereço de Cobrança</span>
+								</div>
+
+
+								<div class="card-action card-content-endereco">
+									<span class="flow-text"><b>Murillo Costa Santana Ferreira</b></span> 
+									<span class="flow-text">RUA da Alfândega, 91, 9º andar - senior solution Centro</span> 
+									<span class="flow-text">Rio de Janeiro - RJ</span> 
+									<span class="flow-text">CEP 20070-003</span>
+									<a href="" class="flow-text">Alterar	Endereço</a>
+								</div>
+							</div>
+
+
+						</div>
+
+						<div class="row">
+							<button class="btn btn-large right waves-effect waves-light">Finalizar
+								Venda</button>
+							</div>
+
+						</div>
+
+
+					</div>
+
+				</div>
+
+			</div>
+
+
+			<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+			<script th:src="@{/static/css/materialize.js}"></script>
+			<script type="text/javascript" th:src="@{static/js/libs/lib.js}"></script>
+
+		</body>
+		</html>

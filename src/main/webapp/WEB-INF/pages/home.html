@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/static/css/styleReset.css}">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet"
+	th:href="@{/static/fonts/font-awesome/css/font-awesome.min.css}">
+
+<link href="http://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<!--Import materialize.css-->
+<link rel="stylesheet" th:href="@{/static/css/materialize.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/static/css/style.css}">
+</head>
+<body>
+Logged user: <span sec:authentication="name"></span>
+<br>
+Logged user: <span th:text="${user}">nome</span>
+
+</body>
+</html>

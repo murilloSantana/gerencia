@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<div th:fragment="panel-padrao">
+	<div class="row">
+			<div class="col s12 m8 push-m2">
+				<div class="card ">
+	
+					<div class="card-content white-text teal lighten-1">
+	
+						<div class="panel-title left">
+							<span class=" ">Controle de Produtos</span>
+						</div>
+	
+	
+						<div class="right">
+	
+							<a  href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Download"><i class="material-icons ">file_download</i></a>
+							
+							<a  href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Imprimir"><i class="material-icons ">print</i></a>
+	
+							<a  href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Importar"><i class="material-icons ">file_upload</i></a>
+	
+							<a  href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ajudar"><i class="material-icons ">help</i></a>
+	
+						</div>
+	
+						<br>
+	
+					</div>
+					<div class="card-action">
+						<div class="left box-search black-text">
+							<input id="input-search" class="" type="text" placeholder="Pesquisar">
+							<i id="icon-search" class="material-icons">search</i>
+						</div>
+	
+						
+						<a th:href="@{/cadastroProduto}" class="waves-effect waves-light btn right">Novo Produto </a>
+						
+	
+						<table class="responsive-table">
+							<thead>
+								<tr>
+									<th data-field="id">Name</th>
+									<th data-field="name">Item Name</th>
+									<th data-field="price">Item Price</th>
+								</tr>
+							</thead>
+	
+							<tbody>
+								<tr>
+									<td>Alvin</td>
+									<td>Eclair</td>
+									<td>$0.87</td>
+								</tr>
+								<tr>
+									<td>Alan</td>
+									<td>Jellybean</td>
+									<td>$3.76</td>
+								</tr>
+								<tr>
+									<td>Jonathan</td>
+									<td>Lollipop</td>
+									<td>$7.00</td>
+								</tr>
+							</tbody>
+	
+						</table>         
+					</div>
+					
+				</div>
+			</div>
+		</div>
+</div>
+</body>
+</html>
