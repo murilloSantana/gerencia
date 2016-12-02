@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import br.com.gerencia.model.InformacoesTecnicas;
@@ -12,9 +15,16 @@ import br.com.gerencia.model.InformacoesTecnicas;
 @Transactional
 @SuppressWarnings("unchecked")
 public class InformacoesTecnicasDAOImpl extends AbstractDAO<Long, InformacoesTecnicas> implements InformacoesTecnicasDAO{
+	
+	@Autowired
+	private SessionFactory sf;
+	protected Session getSession(){
+		return sf.getCurrentSession();
+	}
 
-	public Boolean salvarInformacoesTecnicas(InformacoesTecnicas informacoesTecnicas) {
-		return super.salvar(informacoesTecnicas);
+	public InformacoesTecnicas salvarInformacoesTecnicas(InformacoesTecnicas informacoesTecnicas) {
+		super.getSession().merge(informacoesTecnicas);
+		return informacoesTecnicas;
 	}
 
 	public Boolean editarInformacoesTecnicas(InformacoesTecnicas informacoesTecnicas) {

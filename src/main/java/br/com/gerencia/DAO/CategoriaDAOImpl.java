@@ -13,6 +13,7 @@ import br.com.gerencia.model.Categoria;
 @Transactional
 @SuppressWarnings("unchecked")
 public class CategoriaDAOImpl extends AbstractDAO<Long, Categoria> implements CategoriaDAO{
+	
 	public Boolean salvarCategoria(Categoria categoria) {
 		return super.salvar(categoria);
 	}

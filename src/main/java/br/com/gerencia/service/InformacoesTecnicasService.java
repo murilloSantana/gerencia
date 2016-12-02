@@ -6,7 +6,7 @@ import br.com.gerencia.model.InformacoesTecnicas;
 
 public interface InformacoesTecnicasService {
 
-	Boolean salvarInformacoesTecnicas(InformacoesTecnicas informacoesTecnicas);
+	InformacoesTecnicas salvarInformacoesTecnicas(InformacoesTecnicas informacoesTecnicas);
 	Boolean editarInformacoesTecnicas(InformacoesTecnicas informacoesTecnicas);
 	Boolean excluirInformacoesTecnicas(InformacoesTecnicas informacoesTecnicas);
 	Boolean exluirInformacoesTecnicasPorChave(Long chave);

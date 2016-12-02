@@ -9,48 +9,48 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.jdbc.Work;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class AbstractDAO<PK extends Serializable, T> {
+import br.com.gerencia.model.ContaUsuario;
+
+public abstract class AbstractDAO<PK extends Serializable, T> extends DefaultAbstractDAO<Serializable, T> {
 
 	private final Class<T> classePersistente;
 	@Autowired
 	private SessionFactory sessionFactory;
 
-
-
+	
 	@SuppressWarnings("unchecked")
 	public AbstractDAO() {
 		this.classePersistente = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass())
 				.getActualTypeArguments()[1];
 	}
 
-
 	protected Session getSession() {
-
 		sessionFactory.getCurrentSession().doWork(new Work() {
-
+			
 			public void execute(Connection connection) throws SQLException {
-				connection.setSchema("public");
+				connection.setSchema(getSchema());
 			}
 		});
 		return sessionFactory.getCurrentSession();
 	}
-
+	public String getSchema(){
+		Criteria criteria =  super.getSessionDefault().createCriteria(ContaUsuario.class);
+		criteria.add(Restrictions.eq("username", "atsoc"));
+		ContaUsuario conta = (ContaUsuario) criteria.uniqueResult();
+		
+		return conta.getSchema();
+	}
 	public void login() {
 
 	}
 
-
 	public Boolean salvar(T obj) {
 		try {
-			getSession().persist(obj);
-			gerarTabelas();
-
+			getSession().merge(obj);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -85,7 +85,11 @@ public abstract class AbstractDAO<PK extends Serializable, T> {
 	}
 
 	protected List<?> listarTodos() {
-		return getSession().createCriteria(this.classePersistente).list();
+		try {
+			return getSession().createCriteria(this.classePersistente).list();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -94,21 +98,39 @@ public abstract class AbstractDAO<PK extends Serializable, T> {
 	}
 
 	public List<?> pesquisarPorNome(String nomeAtributo, String valor) {
-		Criteria crit = getSession().createCriteria(this.classePersistente);
-		crit.add(Restrictions.eq(nomeAtributo, valor));
+		Criteria crit = null;
+		try {
+			crit = getSession().createCriteria(this.classePersistente);
+			crit.add(Restrictions.eq(nomeAtributo, valor));
+		} catch (Exception e) {
+		}
 		return crit.list();
 	}
 
+	public List<?> pesquisarPorNome(String nomeAtributo, Integer valor) {
+		Criteria crit = null;
+		try {
+			crit = getSession().createCriteria(this.classePersistente);
+			crit.add(Restrictions.eq(nomeAtributo, valor));
+		} catch (Exception e) {
+		}
+		return crit.list();
+	}
+	
+	public List<?> pesquisarPorNome(String nomeAtributo, Long valor) {
+		Criteria crit = null;
+		try {
+			crit = getSession().createCriteria(this.classePersistente);
+			crit.add(Restrictions.eq(nomeAtributo, valor));
+		} catch (Exception e) {
+		}
+		return crit.list();
+	}
+	
 	public Object pesquisarConta(String valor) {
 		Criteria crit = getSession().createCriteria(this.classePersistente);
 		crit.add(Restrictions.eq("username", valor));
 		return crit.uniqueResult();
 	}
 
-	public void gerarTabelas() {
-		 Configuration cfg = new Configuration();
-		 SchemaExport export = new SchemaExport(cfg);
-		 export.setOutputFile("C:\\Users\\atsoc\\Documents\\query.sql");
-		 export.execute(true, false, false, true);
-	}
 }

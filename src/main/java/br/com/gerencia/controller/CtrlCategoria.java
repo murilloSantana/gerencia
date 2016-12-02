@@ -14,33 +14,35 @@ import br.com.gerencia.constants.StaticCaminho;
 import br.com.gerencia.model.Categoria;
 import br.com.gerencia.service.CategoriaService;
 @Controller
+@RequestMapping("/categoria")
 public class CtrlCategoria {
 
 	@Autowired
 	private CategoriaService categoriaService;
 	
-	@RequestMapping(value = {"/cadastroCategoria"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/cadastro"}, method = RequestMethod.POST)
 	public String cadastroCategoriaPage(@ModelAttribute(value = "categoria") Categoria categoria){
 		categoriaService.salvarCategoria(categoria);		
-		return  "redirect:categoria";
+		return  "redirect:/categoria/lista";
 	}
 	
-	@RequestMapping(value = { "/categoria" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/lista" }, method = RequestMethod.GET)
 	public String categoriaPage(Model model) {
 		model.addAttribute("categoria", new Categoria());
 		model.addAttribute("categorias",categoriaService.listarCategorias());
 		return StaticCaminho.strCaminhoControleEstoque + StaticCaminho.strCategoria + "categorias";
 	}
 	
-	@RequestMapping(value = {"/excluirCategoria"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/excluir"}, method = RequestMethod.GET)
 	public String excluirCategoriaPage(@RequestParam(value="chave") Long chave){
 		categoriaService.exluirCategoriaPorChave(chave);
-		return "redirect:categoria";
+		System.out.println("aquiiii");
+		return "redirect:/categoria/lista";
 	}
-	@RequestMapping(value = {"/editarCategoria"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/editar"}, method = RequestMethod.POST)
 	public @ResponseBody String editarCategoriaPage(@RequestBody Categoria categoria, Model model){
 		categoriaService.editarCategoria(categoria);
-		return "redirect:categoria";
+		return "redirect:/categoria/lista";
 
 	}
 }

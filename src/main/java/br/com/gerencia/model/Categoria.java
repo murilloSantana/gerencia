@@ -47,6 +47,10 @@ public class Categoria implements Serializable{
 		return chaveCategoria;
 	}
 
+	public void setChaveCategoria(Long chaveCategoria) {
+		this.chaveCategoria = chaveCategoria;
+	}
+
 	public String getNome() {
 		return nome;
 	}

@@ -3,21 +3,27 @@ package br.com.gerencia.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.stereotype.Component;
+
 @Entity
 @Table(name = "produto")
-public class Produto implements Serializable{
+@Component
+public class Produto implements Serializable {
 	/**
 	 * 
 	 */
@@ -37,35 +43,44 @@ public class Produto implements Serializable{
 	private Double precoUnitario;
 	@Column(name = "descricao_produto")
 	private String descricaoProduto;
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@JoinColumn(name="chave_info_tecnicas")
+	private InformacoesTecnicas infoTecnicas;
+	@ManyToMany
+	@JoinTable(name = "produto_categoria", joinColumns = { @JoinColumn(name = "chave_produto") }, inverseJoinColumns = {
+			@JoinColumn(name = "chave_categoria") })
+	private List<Categoria> categorias;
+	
 	@Transient
 	private String precoCompraNoFormatado;
 	@Transient
 	private String precoUnitarioNoFormatado;
 	// private TipoProduto tipoProduto;
-
-	// private InformacoesTecnicas infoTecnicas;
-	@ManyToMany
-	@JoinTable(name = "produto_categoria", joinColumns = { @JoinColumn(name = "chave_produto") }, inverseJoinColumns = {
-			@JoinColumn(name = "chave_categoria") })
-	private List<Categoria> categorias;
 	@Transient
 	private List<Long> categoriaId;
 	// private Unidade unidade;
 
 	// private Fornecedor fornecedor;
 
-	public Produto(String nomeProduto, Long codigoBarras, Double precoCompra, Double precoUnitario,
-			String descricaoProduto) {
+	public Produto() {
 		super();
+	}
+
+	public Produto(Long chaveProduto, String nomeProduto, Long codigoBarras, Double precoCompra, Double precoUnitario,
+			String descricaoProduto, String precoCompraNoFormatado, String precoUnitarioNoFormatado,
+			InformacoesTecnicas infoTecnicas, List<Categoria> categorias, List<Long> categoriaId) {
+		super();
+		this.chaveProduto = chaveProduto;
 		this.nomeProduto = nomeProduto;
 		this.codigoBarras = codigoBarras;
 		this.precoCompra = precoCompra;
 		this.precoUnitario = precoUnitario;
 		this.descricaoProduto = descricaoProduto;
-	}
-
-	public Produto() {
-		super();
+		this.precoCompraNoFormatado = precoCompraNoFormatado;
+		this.precoUnitarioNoFormatado = precoUnitarioNoFormatado;
+		this.infoTecnicas = infoTecnicas;
+		this.categorias = categorias;
+		this.categoriaId = categoriaId;
 	}
 
 	public void setChaveProduto(Long chaveProduto) {
@@ -142,6 +157,18 @@ public class Produto implements Serializable{
 
 	public void setCategoriaId(List<Long> categoriaId) {
 		this.categoriaId = categoriaId;
+	}
+
+	public InformacoesTecnicas getInfoTecnicas() {
+		return infoTecnicas;
+	}
+
+	public void setInfoTecnicas(InformacoesTecnicas infoTecnicas) {
+		this.infoTecnicas = infoTecnicas;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

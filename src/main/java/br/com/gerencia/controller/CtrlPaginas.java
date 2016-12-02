@@ -1,22 +1,27 @@
 package br.com.gerencia.controller;
 
+import java.io.File;
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.maven.shared.invoker.DefaultInvocationRequest;
+import org.apache.maven.shared.invoker.DefaultInvoker;
+import org.apache.maven.shared.invoker.InvocationRequest;
+import org.apache.maven.shared.invoker.Invoker;
+import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import br.com.gerencia.constants.ModeloGame;
 import br.com.gerencia.constants.StaticCaminho;
-import br.com.gerencia.model.Categoria;
 import br.com.gerencia.model.ContaUsuario;
-import br.com.gerencia.model.Produto;
 import br.com.gerencia.service.ContaUsuarioService;
+import edu.emory.mathcs.backport.java.util.Collections;
 
 @Controller
 public class CtrlPaginas {
@@ -63,15 +68,7 @@ public class CtrlPaginas {
 
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
 	public String welcomePage() {
-		contaUsuario.setIsAtiva(true);
-		contaUsuario.setNome("murílloç");
-		contaUsuario.setSobrenome("costa santana ferreira");
-		contaUsuario.setUsername("atsoc");
-		contaUsuario.setPassword("031994");
-		contaUsuario.setEmail("murillo@gmail.com");
-		contaUsuario.setDataNascimento(null);
-		contaUsuario.setSchema("murillo");
-		contaService.salvarConta(contaUsuario);
+
 
 		// RestTemplate restTemplate = new RestTemplate();
 		// Quote quote = restTemplate.getForObject(
@@ -134,6 +131,18 @@ public class CtrlPaginas {
 
 	@RequestMapping(value = { "/funcionario" }, method = RequestMethod.GET)
 	public String funcionarioPage() {
+		InvocationRequest invocation = new DefaultInvocationRequest();
+		invocation.setPomFile(new File("C:\\Users\\atsoc\\gerencia\\pom.xml"));
+		invocation.setGoals(Collections.singletonList("liquibase:update"));
+		Invoker invoker = new DefaultInvoker();
+		try {
+			invoker.setMavenHome(new File(System.getenv("MAVEN_HOME")));
+
+			invoker.execute(invocation);
+		} catch (MavenInvocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return StaticCaminho.strCaminhoControleVendas + "funcionario";
 	}
 
@@ -142,25 +151,12 @@ public class CtrlPaginas {
 		return StaticCaminho.strCaminhoControleVendas + "vendas";
 	}
 
-	@RequestMapping(value = { "/maquinas" }, method = RequestMethod.GET)
-	public String maquinasPage(ModelMap model) {
-		model.addAttribute("modelos", ModeloGame.values());
-	
-		return StaticCaminho.strCaminhoControleTempo + "maquinas";
-	}
 
-	@RequestMapping(value = { "/tabelaPreco" }, method = RequestMethod.GET)
-	public String tabelaPrecoPage() {
-		return StaticCaminho.strCaminhoControleTempo + "tabela-preco";
-	}
 
 	@RequestMapping(value = { "/temposGuardados" }, method = RequestMethod.GET)
 	public String tempoGuardadoPage() {
 		return StaticCaminho.strCaminhoControleTempo + "tempo-guardado";
 	}
 
-	@RequestMapping(value = { "/temposAtivos" }, method = RequestMethod.GET)
-	public String tempoAtivoPage() {
-		return StaticCaminho.strCaminhoControleTempo + "tempo-ativo";
-	}
+
 }

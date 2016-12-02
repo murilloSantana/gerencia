@@ -58,7 +58,7 @@
 						</div>
 
 					</div>
-					<form th:action="@{/salvarProduto}" method="post" th:object="${produto}">
+					<form th:action="@{/produto/salvar}" method="post" th:object="${produto}">
 							<div class="row">
 								<div class=" col s6 m4 l3">	
 									<div class="caixa-img" th:style="'background-image:url('+@{/static/img/foto-produto.png}+');'">
@@ -68,12 +68,12 @@
 								  <div class="row">
 									<div class="col s6">
 										<label for="cad-nome-prod">Nome</label>
-										<input id="cad-nome-prod" type="text" placeholder="Nome" th:field="*{nomeProduto}">
+										<input id="cad-nome-prod" type="text" placeholder="Nome" th:field="*{nomeProduto}" th:value="${produto.nomeProduto}">
 									</div>	
 									
 									<div class=" col s6">
 										<label for="cad-preco-compra">Preço de Compra</label>
-										<input id="cad-preco-compra" type="text"  placeholder="Valor de Compra" th:field="*{precoCompraNoFormatado}"  onkeyup="validadorMonetario(this.value,this.id)">
+										<input id="cad-preco-compra" type="text"  placeholder="Valor de Compra" th:field="*{precoCompraNoFormatado}" onkeyup="validadorMonetario(this.value,this.id)"  th:value="${produto.precoCompraNoFormatado}">
 									</div>		
 							  </div>
 							  <div class="row">
@@ -108,7 +108,7 @@
 								</div>
 								<div class="col s12">
 									<label for="cad-desc-prod" id="cad-label-desc" >Descrição</label>
-									<textarea  id="cad-desc-prod" th:field="*{descricaoProduto}" placeholder="Insira um descrição do Produto" class="materialize-textarea"></textarea>
+									<textarea  id="cad-desc-prod" th:field="*{descricaoProduto}" placeholder="Insira um descrição do Produto" class="materialize-textarea" th:value="produto.descricao"></textarea>
 								</div>
 								
 								<div class="col s3 right">
@@ -125,6 +125,6 @@
 
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script th:src="@{/static/css/materialize.min.js}"></script>
-	<script type="text/javascript" th:src="@{static/js/libs/lib.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/libs/lib.js}"></script>
 </body>
 </html>

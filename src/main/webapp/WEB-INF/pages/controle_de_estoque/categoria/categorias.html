@@ -97,9 +97,9 @@
 									<td th:text="${categorias[__${categoriaStat.index}__].descricao}" th:id="descricao+${categoriaStat.index}"></td>
 									<td class="center">
 											
-											<button th:id="btn-editar+${categoriaStat.index}" class="btn yellow darken-1 waves-effect waves-light btn-txt" th:onclick="'habilitarEdicao(\'' + ${categoriaStat.index} + '\' ,  \'' + ${categoria.nome} + '\' , \'' + ${categoria.descricao} + '\') '" type="submit" ><span class=""  >Editar</span><i class="material-icons right">edit</i></button>
-											<button style="display:none" th:id="btn-editado+${categoriaStat.index}" class="btn blue waves-effect waves-light btn-txt" th:onclick="'salvarEdicao(\'' + ${categoriaStat.index} + '\' , \'' + ${categoria.chaveCategoria} + '\') '"> <span class=""  >Salvar</span><i class="material-icons right">add_circle_outline</i></button>
-											<button class="btn red darken-1 waves-effect waves-light btn-txt" type="button"   th:href="@{/excluirCategoria(chave=${categoria.chaveCategoria})}"><span class="">Excluir</span><i class="material-icons right">delete</i></button>
+											<a th:id="btn-editar+${categoriaStat.index}" class="btn yellow darken-1 waves-effect waves-light btn-txt" th:onclick="'habilitarEdicao(\'' + ${categoriaStat.index} + '\' ,  \'' + ${categoria.nome} + '\' , \'' + ${categoria.descricao} + '\') '" type="submit" ><span class=""  >Editar</span><i class="material-icons right">edit</i></a>
+											<a style="display:none" th:id="btn-editado+${categoriaStat.index}" class="btn blue waves-effect waves-light btn-txt" th:onclick="'salvarEdicao(\'' + ${categoriaStat.index} + '\' , \'' + ${categoria.chaveCategoria} + '\') '"> <span class=""  >Salvar</span><i class="material-icons right">add_circle_outline</i></a>
+											<a class="btn red darken-1 waves-effect waves-light btn-txt" type="button"   th:href="@{/categoria/excluir(chave=${categoria.chaveCategoria})}"><span class="">Excluir</span><i class="material-icons right">delete</i></a>
 										
 									</td>
 								</tr>
@@ -118,7 +118,7 @@
 
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script th:src="@{/static/css/materialize.js}"></script>
-	<script type="text/javascript" th:src="@{static/js/libs/lib.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/libs/lib.js}"></script>
 	
 </body>
 </html>

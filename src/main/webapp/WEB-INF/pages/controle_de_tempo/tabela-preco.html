@@ -55,23 +55,24 @@
 				<div class="card-action">
 					<div class="row">
 
-						<form action="" class="">
+						<form th:action="@{/tempo/salvarValorHora}" method="post" th:object="${valorHora}">
 							<div class="input-field left black-text col s5 m4 l3">
-								<input id="cad-min-tab" class="" type="number" min="0">
+								<input id="cad-min-tab" class="" type="number" min="0" th:field="*{minuto}">
 								<label for="cad-min-tab">Minutos</label>
 							</div>
 							<div class="input-field left black-text col s5 m4 l3">
-								<input id="cad-pre-tab" class="" type="text">
+								<input id="cad-pre-tab" class="" type="text" th:field="*{precoNoFormatado}" onkeyup="validadorMonetario(this.value,this.id)">
 								<label for="cad-pre-tab">Preço</label>
 							</div>
 							<div class="input-field left black-text col s5 m4 l3">
-								<select id="cad-mod-tab">
-									<option value="PS3">PS3</option>
+								<select id="cad-mod-tab" name="modelo" required="required">
+									<option value="" th:disabled="disabled" th:selected="selected">Selecione um Modelo</option>
+									<option th:each="modelo : ${modelos}" th:value="${modelo}" th:text="${modelo}"></option>
 								</select>
 								<label for="cad-mod-tab">Modelo da Máquina</label>	
 							</div>
 							
-							<button class="btn btn-form col s4 m4 l2 offset-l1">Salvar</button>
+							<button class="btn btn-form col s4 m4 l2 offset-l1" type="submit">Salvar</button>
 							
 						</form>					
 						
@@ -83,27 +84,17 @@
 							<table class="responsive-table">
 								<thead>
 									<tr>
-										<th data-field="id">Name</th>
-										<th data-field="name">Item Name</th>
-										<th data-field="price">Item Price</th>
+										<th data-field="minuto">Minutos</th>
+										<th data-field="preco">Preço</th>
+										<th data-field="modelo">Modelo</th>
 									</tr>
 								</thead>
 		
-								<tbody>
-									<tr>
-										<td>Alvin</td>
-										<td>Eclair</td>
-										<td>$0.87</td>
-									</tr>
-									<tr>
-										<td>Alan</td>
-										<td>Jellybean</td>
-										<td>$3.76</td>
-									</tr>
-									<tr>
-										<td>Jonathan</td>
-										<td>Lollipop</td>
-										<td>$7.00</td>
+								<tbody >
+									<tr th:each="valor : ${valores}">
+										<td th:text="${valor.minuto}"></td>
+										<td th:text="${valor.preco}"></td>
+										<td th:text="${valor.modelo}"></td>
 									</tr>
 								</tbody>
 		
@@ -119,7 +110,7 @@
 	<script type="text/javascript"
 		src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script th:src="@{/static/css/materialize.min.js}"></script>
-	<script type="text/javascript" th:src="@{static/js/libs/lib.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/libs/lib.js}"></script>
 
 </body>
 </html>

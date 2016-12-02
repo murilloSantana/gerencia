@@ -46,36 +46,36 @@
 				<div class="card-action">
 				    <div class="row">
 				
-						<form action="">
+						<form th:action="@{/informacoesTecnicas/salvarInfo}" method="post" th:object="${informacoesTecnicas}">
 							<div class="row">
 								<div class="input-field col s6">
-									<input type="text" id="cad-cor-info" />
+									<input type="text" id="cad-cor-info" th:field="*{cor}" />
 									<label for="cad-cor-info">Cor</label>
 								</div>
 								<div class="input-field col s6">
-									<input type="text" id="cad-fab-info" />
+									<input type="text" id="cad-fab-info" th:field="*{fabricante}"/>
 									<label for="cad-fab-info">Fabricante</label>
 								</div>
 							</div>
 							<div class="row">
 								<div class="input-field col s6">
-									<input type="text" id="cad-mod-info" />
+									<input type="text" id="cad-mod-info" th:field="*{modelo}"/>
 									<label for="cad-mod-info">Modelo</label>
 								</div>
 							
 								<div class="input-field col s6">
-									<input type="text" id="cad-garantia-info" />
+									<input type="text" id="cad-garantia-info" th:field="*{garantiaFornecedor}"/>
 									<label for="cad-garantia-info">Garantia do Fornecedor </label>
 								</div>
 							</div>
 							<div class="row">
 								<div class="input-field col s12">
-									<textarea  id="cad-mais-info" class="materialize-textarea"></textarea>
+									<textarea  id="cad-mais-info" class="materialize-textarea" th:field="*{maisInformacoes}"></textarea>
 									<label for="cad-mais-info">Mais informações</label>
 								</div>
 							</div>
-							<a th:href="@{/salvarInformacoesTecnicas}" class="waves-effect waves-light btn right col s6 m4 l2">Salvar</a>
-							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+							<button  class="waves-effect waves-light btn right col s6 m4 l2" type="submit">Salvar</button>
+							,<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 					
 						</form>
 						
@@ -92,7 +92,7 @@
 
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script th:src="@{/static/css/materialize.min.js}"></script>
-	<script type="text/javascript" th:src="@{static/js/libs/lib.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/libs/lib.js}"></script>
 
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" id="html">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,25 +55,31 @@
 				<div class="card-action">
 					<div class="row">
 
-						<form action="" class="">
+						<form th:action="@{/tempo/salvarTempoAtivo}" method="post" th:object="${itemTransacao}">
 							<div class="input-field left black-text col s5 m4 l3">
-								<select id="cad-maq-tmp">
-									<option value="PS3">PS3</option>
+								<select id="cad-maq-tmp" name="chaveMaquina"  onchange="atualizarListaValorHora(this.value,this.id)" required="required">
+									<option value="" th:disabled="disabled" th:selected="selected">Selecione uma Máquina</option>								
+									<option th:each="maquina : ${maquinas}" th:text="${maquina.numero}" th:id="${maquina.chaveMaquina}" th:value="${maquina.chaveMaquina}"></option>
 								</select>
-								<label for="cad-num-tmp">Número da Máquina</label>	
+								<label for="cad-maq-tmp">Número da Máquina</label>	
 							</div>
-							<div class="input-field left black-text col s5 m4 l3">
-								<select id="cad-min-tmp">
-									<option value="PS3">PS3</option>
+							<div class="left black-text col s5 m4 l3">
+								<label for="cad-min-tmp">Minutos</label>		
+								<select class="browser-default" id="cad-min-tmp" name="minuto" required="required" onchange="preencheDadosValorHora()">
+									<option value="" th:selected="selected" th:disabled="disabled">Selecione uma Opção</option>
 								</select>
-								<label for="cad-min-tmp">Minutos</label>	
 							</div>
-							<div class="input-field left black-text col s5 m4 l3">
-								<input id="cad-pre-tmp" class="" type="text">
+							<div class="left black-text col s4 m3 l2">
+								<input id="cad-mod-tmp" class="" type="text" disabled>
+								<label for="cad-mod-tmp">Modelo</label>
+							</div>
+	
+							<div class="left black-text col s4 m2 l2">
+								<input id="cad-pre-tmp" class="" type="text" disabled>
 								<label for="cad-pre-tmp">Preço</label>
 							</div>
 						
-							<button class="btn btn-form col s4 m4 l2 offset-l1">Salvar</button>
+							<button class="btn btn-form col s4 m3 l2" type="submit">Salvar</button>
 							
 						</form>					
 						
@@ -113,7 +119,8 @@
 	<script type="text/javascript"
 		src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script th:src="@{/static/css/materialize.js}"></script>
-	<script type="text/javascript" th:src="@{static/js/libs/lib.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/libs/lib.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/libs/jquery.cookie.js}"></script>
 
 </body>
 </html>

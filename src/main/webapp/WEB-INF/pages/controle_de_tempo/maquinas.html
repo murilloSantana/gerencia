@@ -55,20 +55,20 @@
 				<div class="card-action">
 					<div class="row">
 
-						<form action="" class="">
+						<form th:action="@{/maquina/salvar}" method="post" th:object="${maquina}">
 							<div class="input-field left black-text col s5 m4 l3">
-								<input id="cad-num-maq" class="" type="number" min="1">
+								<input id="cad-num-maq" class="" type="number" min="1" th:field="*{numero}">
 								<label for="cad-num-maq">Número da Máquina</label>
 							</div>
 							<div class="input-field left black-text col s5 m4 l3">
-								<select id="cad-mod-maq">
-									<option  disabled selected>Selecione um modelo</option>
+								<select id="cad-mod-maq" name="modelo" required="required" >
+									<option  value=""  th:disabled="disabled" th:selected="selected">Selecione um modelo</option>
 									<option th:each="modelo : ${modelos}" th:value="${modelo}" th:text="${modelo}"></option>
 								</select>
 								<label for="cad-mod-maq">Modelo da Máquina</label>	
 							</div>
 							
-							<button class="btn btn-form col s4 m4 l2 offset-l1">Salvar</button>
+							<button class="btn btn-form col s4 m4 l2 offset-l1" type="submit">Salvar</button>
 							
 						</form>					
 						
@@ -80,15 +80,15 @@
 							<table class="responsive-table">
 								<thead>
 									<tr>
-										<th data-field="id">Name</th>
-										<th data-field="name">Item Name</th>
-										<th data-field="price">Item Price</th>
+										<th data-field="numero">Numero Da Máquina</th>
+										<th data-field="modelo">Modelo</th>
 									</tr>
 								</thead>
 		
 								<tbody>
-									<tr th:each="modelo : ${modelos}">
-										<td th:text="${modelo}"></td>
+									<tr th:each="maq : ${maquinas}">
+										<td th:text="${maq.numero}"></td>
+										<td th:text="${maq.modelo}"></td>										
 									</tr>
 								</tbody>
 		
@@ -104,7 +104,7 @@
 	<script type="text/javascript"
 		src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script th:src="@{/static/css/materialize.min.js}"></script>
-	<script type="text/javascript" th:src="@{static/js/libs/lib.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/libs/lib.js}"></script>
 
 </body>
 </html>
