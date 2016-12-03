@@ -4,17 +4,6 @@ $(document).ready(function() {
 	$('.button-collapse').sideNav();
 	// $('.modal-close').modal('close');
 
-	// $(document).on('change', '#cad-maq-tmp', function() {
-	//		
-	// // $('#cad-maq-tmp').append('<option value="" th:selected="selected"
-	// // th:disabled="disabled">Selecione uma Opção</option>')
-	// // var valores = JSON.parse($.cookie("valores"));
-	// // console.log(valores)
-	// // $.each(valores, function(index, value) {
-	// // console.log(index)
-	// // //$('#cad-min-tmp').append('<option>' + value + '</option>');
-	// // });
-	// })
 });
 
 var habilitarEdicao = function(indice, nome, descricao) {
@@ -165,12 +154,13 @@ var preencheDadosValorHora = function(){
 	
 };
 
-var showSubLista = function(id) {
-	var btnShow = id == "btn-prod" ? "#conteudo-prod"
-			: id == "btn-add" ? "#conteudo-add" : null;
+var showSubLista = function(id,indice) {
+	id = id+indice;
+	var btnShow = id == "btn-prod"+indice ? "#conteudo-prod"+indice
+			: id == "btn-add-alarm"+indice ? "#conteudo-add"+indice : id == "btn-off-alarm"+indice ? "#conteudo-off"+indice : null;
 	if ($(btnShow).is(':visible')) {
-		$('#' + id).parent().addClass('active');
-		$('#' + id).parent().siblings('.collapsible-body').stop(true, false)
+		$('#' + id ).parent().addClass('active');
+		$('#' + id ).parent().siblings('.collapsible-body').stop(true, false)
 				.slideUp({
 					duration : 350,
 					easing : "easeOutQuart",
@@ -182,16 +172,23 @@ var showSubLista = function(id) {
 	}
 
 	switch (id) {
-	case "btn-prod":
-		$("#conteudo-prod").show();
-		$("#conteudo-default").hide();
-		$("#conteudo-add").hide();
+	case "btn-prod"+indice:
+		$("#conteudo-prod"+indice).show();
+		$("#conteudo-default"+indice).hide();
+		$("#conteudo-add"+indice).hide();
+		$("#conteudo-off"+indice).hide();
 		break;
-	case "btn-add":
-		$("#conteudo-add").show();
-		$("#conteudo-prod").hide();
-		$("#conteudo-default").hide();
+	case "btn-add-alarm"+indice:
+		$("#conteudo-add"+indice).show();
+		$("#conteudo-prod"+indice).hide();
+		$("#conteudo-default"+indice).hide();
+		$("#conteudo-off"+indice).hide();
 		break;
+	case "btn-off-alarm"+indice:
+		$("#conteudo-off"+indice).show();
+		$("#conteudo-prod"+indice).hide();
+		$("#conteudo-default"+indice).hide();
+		$("#conteudo-add"+indice).hide();
 	}
 
 }

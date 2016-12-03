@@ -41,4 +41,12 @@ public class TransacaoServiceImpl implements TransacaoService{
 		public Transacao pesquisarTransacaoPorChave(Long chave) {
 			return transacaoDAO.pesquisarTransacaoPorChave(chave);
 		}
+
+		public List<Transacao> transacoesAtivas() {
+			return transacaoDAO.transacoesAtivas();
+		}
+
+		public Boolean isTransacaoAtiva(Integer numeroMaquina) {
+			return transacaoDAO.isTransacaoAtiva(numeroMaquina);
+		}
 }

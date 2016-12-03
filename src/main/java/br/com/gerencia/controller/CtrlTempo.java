@@ -1,5 +1,6 @@
 package br.com.gerencia.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 import br.com.gerencia.constants.ModeloGame;
 import br.com.gerencia.constants.StaticCaminho;
 import br.com.gerencia.model.ItemTransacao;
+import br.com.gerencia.model.Transacao;
 import br.com.gerencia.model.loja.Maquina;
 import br.com.gerencia.model.loja.ValorHora;
+import br.com.gerencia.service.ItemTransacaoService;
+import br.com.gerencia.service.TransacaoService;
 import br.com.gerencia.service.loja.MaquinaService;
 import br.com.gerencia.service.loja.ValorHoraService;
 import br.com.gerencia.util.FormatadorUtil;
@@ -33,6 +37,10 @@ public class CtrlTempo {
 	private FormatadorUtil formatadorUtil;
 	@Autowired
 	private MaquinaService maquinaService;
+	@Autowired
+	private ItemTransacaoService itemTransacaoService;
+	@Autowired
+	private TransacaoService transacaoService;
 
 	@RequestMapping(value = { "/tabelaPreco" }, method = RequestMethod.GET)
 	public String tabelaPrecoPage(ModelMap model) {
@@ -43,28 +51,50 @@ public class CtrlTempo {
 	}
 
 	@RequestMapping(value = { "/temposAtivos" }, method = RequestMethod.GET)
-	public ModelAndView tempoAtivoPage(ModelMap model, HttpServletRequest request,ModelAndView modelAndView) {
+	public ModelAndView tempoAtivoPage(ModelMap model, HttpServletRequest request, ModelAndView modelAndView) {
 		List<ValorHora> valores = null;
-		
+
 		modelAndView.addObject("valores", valores == null ? valorHoraService.listarValorHora() : valores);
 		model.addAttribute("maquinas", maquinaService.listarMaquinas());
+		model.addAttribute("transacoes", transacaoService.transacoesAtivas());	
 		modelAndView.setViewName(StaticCaminho.strCaminhoControleTempo + "tempo-ativo");
+		
+		
 		return modelAndView;
 	}
 
 	@RequestMapping(value = { "/salvarTempoAtivo" }, method = RequestMethod.POST)
 	public String salvarTempoAtivo(@ModelAttribute("itemTransacao") ItemTransacao itemTransacao,
 			@ModelAttribute("chaveMaquina") Long maquinaChave) {
-		itemTransacao.setMaquina(maquinaService.pesquisarMaquinaPorChave(maquinaChave));
-		System.out.println(itemTransacao.getMaquina());
-		System.out.println(itemTransacao.getMinuto());
+
+		//verificando se a transacao esta ativa 
+		if(transacaoService.isTransacaoAtiva(maquinaService.pesquisarMaquinaPorChave(maquinaChave).getNumero())){
+			System.out.println("bladeeeeeeeeeeeeeeeeeeeeeeee");
+		}else{
+			
+			List<ItemTransacao> itens = new ArrayList<ItemTransacao>();
+
+			itemTransacao.setMaquina(maquinaService.pesquisarMaquinaPorChave(maquinaChave));
+			itemTransacao.setHoraInicio(itemTransacaoService.calcularTempo());
+			itemTransacao.setHoraFim(itemTransacaoService.calcularTempo().plusMinutes(itemTransacao.getMinuto()));
+
+			itens.add(itemTransacao);
+			Transacao transacao = new Transacao(itemTransacao.getHoraInicio(), "Transacao de tempo",
+					itemTransacao.getPrecoUnitario(), false, null, true, itens);
+
+			itemTransacao.setTransacao(transacao);
+			itemTransacaoService.salvarItemTransacao(itemTransacao);
+		}
+		
+
 
 		return "redirect:/tempo/temposAtivos";
 	}
 
 	@RequestMapping(value = { "/atualizarListaValorHora" }, method = RequestMethod.GET)
-	public @ResponseBody List<ValorHora> atualizarListaValorHora(@RequestParam("numero") Integer numero, HttpServletResponse response) {
-		List<ValorHora> valores=null;
+	public @ResponseBody List<ValorHora> atualizarListaValorHora(@RequestParam("numero") Integer numero,
+			HttpServletResponse response) {
+		List<ValorHora> valores = null;
 		try {
 
 			if (maquinaService.isMaquinaExists(numero)) {

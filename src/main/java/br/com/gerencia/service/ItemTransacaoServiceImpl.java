@@ -2,6 +2,7 @@ package br.com.gerencia.service;
 
 import java.util.List;
 
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import br.com.gerencia.DAO.ItemTransacaoDAO;
 import br.com.gerencia.model.ItemTransacao;
 
 @Service("itemTransacaoService")
+@SuppressWarnings("static-access")
 public class ItemTransacaoServiceImpl implements ItemTransacaoService{
 
 	@Autowired
@@ -40,5 +42,10 @@ public class ItemTransacaoServiceImpl implements ItemTransacaoService{
 
 		public ItemTransacao pesquisarItemTransacaoPorChave(Long chave) {
 			return itemTransacaoDAO.pesquisarItemTransacaoPorChave(chave);
+		}
+
+		public LocalDateTime calcularTempo() {
+			LocalDateTime dateTimeZone = new LocalDateTime();
+			return dateTimeZone.now();
 		}
 }

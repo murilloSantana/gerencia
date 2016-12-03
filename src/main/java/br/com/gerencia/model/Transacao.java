@@ -1,6 +1,5 @@
 package br.com.gerencia.model;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 
 @Entity
@@ -26,7 +27,8 @@ public class Transacao {
 	@Column(name = "chave_transacao")
 	private Long chaveTransacao;
 	@Column(name = "data_transacao")
-	private Date dataTransacao;
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+	private LocalDateTime dataTransacao;
 	@Column
 	private String observacao;
 	@Column(name = "valor_total")
@@ -44,7 +46,7 @@ public class Transacao {
 
 	// private FormasPagamento[] formasPagamento;
 	@Column
-	private Boolean isAndamento;
+	private Boolean isAtiva;
 
 	// private TipoConta tipoConta;
 
@@ -52,31 +54,30 @@ public class Transacao {
 
 	// private Funcionario funcionario;
 
-	@OneToMany(mappedBy = "transacao", targetEntity = ItemTransacao.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(mappedBy = "transacao", targetEntity = ItemTransacao.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<ItemTransacao> itensTransacao;
 
 	public Transacao() {
 		super();
 	}
 
-	public Transacao(Long chaveTransacao, Date dataTransacao, String observacao, Double valorTotal, Boolean isCancelada,
+	public Transacao(LocalDateTime dataTransacao, String observacao, Double valorTotal, Boolean isCancelada,
 			String motivoCancelamento, Boolean isAndamento, List<ItemTransacao> itensTransacao) {
 		super();
-		this.chaveTransacao = chaveTransacao;
 		this.dataTransacao = dataTransacao;
 		this.observacao = observacao;
 		this.valorTotal = valorTotal;
 		this.isCancelada = isCancelada;
 		this.motivoCancelamento = motivoCancelamento;
-		this.isAndamento = isAndamento;
+		this.isAtiva = isAndamento;
 		this.itensTransacao = itensTransacao;
 	}
 
-	public Date getDataTransacao() {
+	public LocalDateTime getDataTransacao() {
 		return dataTransacao;
 	}
 
-	public void setDataTransacao(Date dataTransacao) {
+	public void setDataTransacao(LocalDateTime dataTransacao) {
 		this.dataTransacao = dataTransacao;
 	}
 
@@ -113,15 +114,31 @@ public class Transacao {
 	}
 
 	public Boolean getIsAndamento() {
-		return isAndamento;
+		return isAtiva;
 	}
 
 	public void setIsAndamento(Boolean isAndamento) {
-		this.isAndamento = isAndamento;
+		this.isAtiva = isAndamento;
 	}
 
 	public Long getChaveTransacao() {
 		return chaveTransacao;
+	}
+
+	public Boolean getIsAtiva() {
+		return isAtiva;
+	}
+
+	public void setIsAtiva(Boolean isAtiva) {
+		this.isAtiva = isAtiva;
+	}
+
+	public List<ItemTransacao> getItensTransacao() {
+		return itensTransacao;
+	}
+
+	public void setItensTransacao(List<ItemTransacao> itensTransacao) {
+		this.itensTransacao = itensTransacao;
 	}
 
 }

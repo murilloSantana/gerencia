@@ -290,6 +290,11 @@ input[type=text]{
 .btn-form{
 	margin-top: 3%;
 }
+
+.btn-transacao i{
+	color: black;
+}
+
 #categoria-cadastro.modal{
 	  width: 25%;
 	  height: 62%;

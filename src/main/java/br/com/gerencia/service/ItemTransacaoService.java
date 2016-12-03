@@ -2,6 +2,8 @@ package br.com.gerencia.service;
 
 import java.util.List;
 
+import org.joda.time.LocalDateTime;
+
 import br.com.gerencia.model.ItemTransacao;
 
 public interface ItemTransacaoService {
@@ -13,4 +15,5 @@ public interface ItemTransacaoService {
 	List<ItemTransacao> listarItemTransacaos();
 	List<ItemTransacao> pesquisarItemTransacaoPorNome(String nomeAtributo, String valor);
 	ItemTransacao pesquisarItemTransacaoPorChave(Long chave);
+	LocalDateTime calcularTempo();
 }

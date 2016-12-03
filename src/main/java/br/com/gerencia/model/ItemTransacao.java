@@ -1,7 +1,5 @@
 package br.com.gerencia.model;
 
-import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 
 import br.com.gerencia.model.loja.Maquina;
@@ -29,11 +29,14 @@ public class ItemTransacao {
 	@Column(name = "preco_unitario")
 	private Double precoUnitario;
 	@Column
-	private Date data;
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+	private LocalDateTime data;
 	@Column(name = "hora_inicio")
-	private Date horaInicio;
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+	private LocalDateTime horaInicio;
 	@Column(name = "hora_fim")
-	private Date horaFim;
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+	private LocalDateTime horaFim;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "transacao_id")
@@ -46,8 +49,6 @@ public class ItemTransacao {
 	@Column
 	private Integer minuto;
 	@Column
-	private Double preco;
-	@Column
 	private String modelo;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "maquina_id")
@@ -57,8 +58,9 @@ public class ItemTransacao {
 		super();
 	}
 
-	public ItemTransacao(Long chaveItemTransacao, Double precoUnitario, Date data, Date horaInicio, Date horaFim,
-			Transacao transacao, Produto produto, Integer minuto, Double preco, String modelo, Maquina maquina) {
+	public ItemTransacao(Long chaveItemTransacao, Double precoUnitario, LocalDateTime data, LocalDateTime horaInicio,
+			LocalDateTime horaFim, Transacao transacao, Produto produto, Integer minuto, String modelo,
+			Maquina maquina) {
 		super();
 		this.chaveItemTransacao = chaveItemTransacao;
 		this.precoUnitario = precoUnitario;
@@ -68,7 +70,6 @@ public class ItemTransacao {
 		this.transacao = transacao;
 		this.produto = produto;
 		this.minuto = minuto;
-		this.preco = preco;
 		this.modelo = modelo;
 		this.maquina = maquina;
 	}
@@ -81,27 +82,27 @@ public class ItemTransacao {
 		this.precoUnitario = precoUnitario;
 	}
 
-	public Date getData() {
+	public LocalDateTime getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(LocalDateTime data) {
 		this.data = data;
 	}
 
-	public Date getHoraInicio() {
+	public LocalDateTime getHoraInicio() {
 		return horaInicio;
 	}
 
-	public void setHoraInicio(Date horaInicio) {
+	public void setHoraInicio(LocalDateTime horaInicio) {
 		this.horaInicio = horaInicio;
 	}
 
-	public Date getHoraFim() {
+	public LocalDateTime getHoraFim() {
 		return horaFim;
 	}
 
-	public void setHoraFim(Date horaFim) {
+	public void setHoraFim(LocalDateTime horaFim) {
 		this.horaFim = horaFim;
 	}
 
@@ -127,14 +128,6 @@ public class ItemTransacao {
 
 	public void setMinuto(Integer minuto) {
 		this.minuto = minuto;
-	}
-
-	public Double getPreco() {
-		return preco;
-	}
-
-	public void setPreco(Double preco) {
-		this.preco = preco;
 	}
 
 	public String getModelo() {

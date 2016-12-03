@@ -115,6 +115,24 @@
 		</dependency>
 		<!-- Dependencias liquibase -->
 
+		<!-- Dependencias joda-time(Para trabalhar com datas) -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.9.4</version>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time-hibernate</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jadira.usertype</groupId>
+			<artifactId>usertype.core</artifactId>
+			<version>3.1.0.CR1</version>
+		</dependency>
+		<!-- Dependencias joda-time(Para trabalhar com datas) -->
+
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-invoker-plugin</artifactId>
