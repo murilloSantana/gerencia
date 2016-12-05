@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/static/css/styleReset.css}">
+	<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet"
+	th:href="@{/static/fonts/font-awesome/css/font-awesome.min.css}">
+
+	<link href="http://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+	<!--Import materialize.css-->
+	<link rel="stylesheet" th:href="@{/static/css/materialize.css}">
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/static/css/style.css}">
+	<title>Gerencia</title>
+
+</head>
+<body>
+	
+	<div th:fragment="ctrl-tempo(chaveMaquina,itensTransacao)">
+		
+		<div class="row">
+		  <form th:action="@{/tempo/salvarTempoAtivo}" method="post" th:object="${itemTransacao}">
+				<div class="input-field col s5 m4 l3">
+					<select class="browser-default" id="cad-min-tmp-list" name="minuto" onchange="preencheDadosValorHora(true)">
+						<option value=""  th:selected="selected" th:disabled="disabled">Selecione uma Opção</option>
+					</select>
+				</div>
+				<div class="left black-text col s5 m4 l3">
+					<input id="cad-mod-tmp-list" class="" type="text" name="modelo"  readonly="readonly" />
+						<label for="cad-mod-tmp-list">Modelo</label>
+				</div>
+	
+				<div class="left black-text col s5 m4 l3">
+					<input id="cad-pre-tmp-list" class="" type="text" name="precoUnitario" readonly="readonly" />
+					<label for="cad-pre-tmp-list">Preço</label>
+				</div>
+				<input type="hidden" name="chaveMaquina" th:value="${chaveMaquina}">
+				<button class="btn btn-form col s4 m3 l2" type="submit">Salvar</button>
+			</form>
+		</div>
+		<div class="row ">
+			<div class="col s12">
+			<table class="responsive-table bordered striped btn-table">
+				<thead>
+					<tr>
+					  <th data-field="horaInicio">Hora de Inicio</th>
+					  <th data-field="horaFim">Hora de Término</th>
+					  <th data-field="minuto">Minutos</th>
+					  <th data-field="modelo" >Modelo</th>
+					  <th data-field="precoUnitario">Preço Unitário</th>
+					  <th></th>
+					</tr>
+				</thead> 
+				<tbody>
+					<tr th:each="itens : ${itensTransacao}">		
+					  <td th:text="${#dates.format(itens.horaInicio.toDate(),'HH:mm:ss')}"></td>
+					  <td th:text="${#dates.format(itens.horaFim.toDate(),'HH:mm:ss')}"></td>
+					  <td th:text="${itens.minuto}"></td>
+					  <td th:text="${itens.modelo}"></td>
+					  <td th:text="${itens.precoUnitario}"></td>
+					  <td class="center">
+					  	<a class="btn red darken-1 waves-effect waves-light btn-txt" type="button" ><span class="">Excluir</span><i class="material-icons right">delete</i></a>
+					  </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>	
+		</div>
+	</div>
+
+
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script th:src="@{/static/css/materialize.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/libs/lib.js}"></script>
+	
+</body>
+</html>

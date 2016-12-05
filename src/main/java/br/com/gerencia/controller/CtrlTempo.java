@@ -42,6 +42,7 @@ public class CtrlTempo {
 	@Autowired
 	private TransacaoService transacaoService;
 
+	
 	@RequestMapping(value = { "/tabelaPreco" }, method = RequestMethod.GET)
 	public String tabelaPrecoPage(ModelMap model) {
 		model.addAttribute("modelos", ModeloGame.values());
@@ -57,8 +58,8 @@ public class CtrlTempo {
 		modelAndView.addObject("valores", valores == null ? valorHoraService.listarValorHora() : valores);
 		model.addAttribute("maquinas", maquinaService.listarMaquinas());
 		model.addAttribute("transacoes", transacaoService.transacoesAtivas());	
+		model.addAttribute("itemTransacao", new ItemTransacao());
 		modelAndView.setViewName(StaticCaminho.strCaminhoControleTempo + "tempo-ativo");
-		
 		
 		return modelAndView;
 	}
@@ -67,19 +68,26 @@ public class CtrlTempo {
 	public String salvarTempoAtivo(@ModelAttribute("itemTransacao") ItemTransacao itemTransacao,
 			@ModelAttribute("chaveMaquina") Long maquinaChave) {
 
-		//verificando se a transacao esta ativa 
-		if(transacaoService.isTransacaoAtiva(maquinaService.pesquisarMaquinaPorChave(maquinaChave).getNumero())){
-			System.out.println("bladeeeeeeeeeeeeeeeeeeeeeeee");
+		Transacao transacao;
+		Maquina maquina = maquinaService.pesquisarMaquinaPorChave(maquinaChave);
+		List<ItemTransacao> itens = new ArrayList<ItemTransacao>();
+
+		itemTransacao.setMaquina(maquina);
+		itemTransacao.setHoraInicio(itemTransacaoService.calcularTempo());
+		itemTransacao.setHoraFim(itemTransacaoService.calcularTempo().plusMinutes(itemTransacao.getMinuto()));
+		itemTransacao.setDataTransacao(itemTransacaoService.calcularTempo());
+		itens.add(itemTransacao);
+
+		//verificando se a transacao esta ativa, se estiver é retornado uma transacao para o atributo
+		if((transacaoService.isTransacaoAtiva(maquinaChave.intValue())) != null){
+			
+			transacao = transacaoService.isTransacaoAtiva(maquinaChave.intValue());
+			transacao.setItensTransacao(itens);
+			itemTransacao.setTransacao(transacao);
+			transacaoService.salvarTransacao(transacao);
 		}else{
 			
-			List<ItemTransacao> itens = new ArrayList<ItemTransacao>();
-
-			itemTransacao.setMaquina(maquinaService.pesquisarMaquinaPorChave(maquinaChave));
-			itemTransacao.setHoraInicio(itemTransacaoService.calcularTempo());
-			itemTransacao.setHoraFim(itemTransacaoService.calcularTempo().plusMinutes(itemTransacao.getMinuto()));
-
-			itens.add(itemTransacao);
-			Transacao transacao = new Transacao(itemTransacao.getHoraInicio(), "Transacao de tempo",
+		    transacao = new Transacao(itemTransacao.getHoraInicio(), "Transacao de tempo",
 					itemTransacao.getPrecoUnitario(), false, null, true, itens);
 
 			itemTransacao.setTransacao(transacao);
@@ -92,15 +100,14 @@ public class CtrlTempo {
 	}
 
 	@RequestMapping(value = { "/atualizarListaValorHora" }, method = RequestMethod.GET)
-	public @ResponseBody List<ValorHora> atualizarListaValorHora(@RequestParam("numero") Integer numero,
+	public @ResponseBody List<ValorHora> atualizarListaValorHora(@RequestParam("chaveMaquina") Integer chaveMaquina,
 			HttpServletResponse response) {
 		List<ValorHora> valores = null;
 		try {
+			Maquina maquina = maquinaService.pesquisarMaquinaPorChave(chaveMaquina.longValue());
 
-			if (maquinaService.isMaquinaExists(numero)) {
-				Maquina maquina = maquinaService.pesquisarMaquinaPorNome("numero", numero).get(0);
+			if (maquina != null) {
 				valores = valorHoraService.pesquisarValorHoraPorNome("modelo", maquina.getModelo());
-
 			} else {
 				System.out.println("error");
 			}

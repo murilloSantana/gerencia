@@ -291,10 +291,18 @@ input[type=text]{
 	margin-top: 3%;
 }
 
-.btn-transacao i{
+i.icon-red{
+	color: #ff6868;
+}
+i.icon-black{
 	color: black;
 }
-
+i.icon-green{
+	color: #85ff75;
+}
+i.icon-blue{
+	color: #938bf9;
+}
 #categoria-cadastro.modal{
 	  width: 25%;
 	  height: 62%;
@@ -323,7 +331,7 @@ input[type=text]{
   margin-top: -12%;
   margin-right: 2%;
 }
-.categoria-table  th:last-child{
+.categoria-table th:last-child{
 	width: 25%;
 }
 @media only screen and (max-width: 485px) {

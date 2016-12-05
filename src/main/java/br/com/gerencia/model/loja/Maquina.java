@@ -23,7 +23,7 @@ public class Maquina implements Serializable {
 	@Id
 	@GeneratedValue(generator = "maquina_seq", strategy = GenerationType.IDENTITY)
 	@SequenceGenerator(name = "maquina_seq", sequenceName = "chave_maquina_seq", allocationSize = 1)
-//	@Column(name = "chave_maquina")
+	@Column(name = "chave_maquina")
 	private Long chaveMaquina;
 	@Column(name = "numero")
 	private Integer numero;

@@ -41,13 +41,6 @@ public class MaquinaDAOImpl extends AbstractDAO<Long, Maquina> implements Maquin
 		return super.pesquisarPorChave(chave);
 	}
 
-	public Boolean isMaquinaExists(Integer numero) {
-		
-		if (super.pesquisarPorNome("numero", numero).size() > 0)
-			return true;
-		else
-			return false;
-	}
 
 	public List<Maquina> pesquisarMaquinaPorNome(String nomeAtributo, Integer valor) {
 		return (List<Maquina>) super.pesquisarPorNome(nomeAtributo, valor);

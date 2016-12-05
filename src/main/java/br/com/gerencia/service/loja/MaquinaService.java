@@ -14,6 +14,5 @@ public interface MaquinaService {
 	List<Maquina> pesquisarMaquinaPorNome(String nomeAtributo, String valor);
 	List<Maquina> pesquisarMaquinaPorNome(String nomeAtributo, Integer valor);
 	Maquina pesquisarMaquinaPorChave(Long chave);
-	Boolean isMaquinaExists(Integer numero);
 
 }

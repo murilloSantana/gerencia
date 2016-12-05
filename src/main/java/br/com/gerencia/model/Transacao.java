@@ -54,7 +54,7 @@ public class Transacao {
 
 	// private Funcionario funcionario;
 
-	@OneToMany(mappedBy = "transacao", targetEntity = ItemTransacao.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "transacao", targetEntity = ItemTransacao.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<ItemTransacao> itensTransacao;
 
 	public Transacao() {

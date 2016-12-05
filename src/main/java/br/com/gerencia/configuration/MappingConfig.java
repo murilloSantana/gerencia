@@ -15,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.dialect.IDialect;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
@@ -22,10 +23,11 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
+
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "br.com.gerencia")
-public class MappingConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
+public class MappingConfig<JodaDialect> extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
 
@@ -51,7 +53,7 @@ public class MappingConfig extends WebMvcConfigurerAdapter implements Applicatio
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		//registry.addInterceptor(new Interceptor());
+		// registry.addInterceptor(new Interceptor());
 	}
 
 	@Bean
@@ -71,15 +73,20 @@ public class MappingConfig extends WebMvcConfigurerAdapter implements Applicatio
 	public SpringTemplateEngine templateEngine() {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setEnableSpringELCompiler(true);
+		Set<IDialect> additionalDialects = new HashSet<IDialect>();
+		additionalDialects.add(dialect());
+		additionalDialects.add( timeDialect() );
+		templateEngine.setAdditionalDialects(additionalDialects);
 		templateEngine.setTemplateResolver(templateResolver());
-        Set<IDialect> additionalDialects = new HashSet<IDialect>();
-        additionalDialects.add( springSecurityDialect() );
-        templateEngine.setAdditionalDialects( additionalDialects );
+
 		return templateEngine;
 	}
-
 	@Bean
-	public SpringSecurityDialect springSecurityDialect() {
+	public Java8TimeDialect timeDialect(){
+		return new Java8TimeDialect();
+	}
+	@Bean
+	public SpringSecurityDialect dialect() {
 		return new SpringSecurityDialect();
 	}
 

@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org" id="html">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" type="text/css"
+	<link rel="stylesheet" type="text/css"
 	th:href="@{/static/css/styleReset.css}">
-<link rel="stylesheet"
+	<link rel="stylesheet"
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet"
+	<link rel="stylesheet"
 	th:href="@{/static/fonts/font-awesome/css/font-awesome.min.css}">
 
-<link href="http://fonts.googleapis.com/icon?family=Material+Icons"
+	<link href="http://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
-<!--Import materialize.css-->
-<link rel="stylesheet" th:href="@{/static/css/materialize.css}">
-<link rel="stylesheet" type="text/css"
+	<!--Import materialize.css-->
+	<link rel="stylesheet" th:href="@{/static/css/materialize.css}">
+	<link rel="stylesheet" type="text/css"
 	th:href="@{/static/css/style.css}">
 </head>
 <body>
@@ -36,16 +36,14 @@
 					<div class="right">
 
 						<a href="" class="tooltipped" data-position="bottom"
-							data-delay="50" data-tooltip="Download"><i
-							class="material-icons ">file_download</i></a> <a href=""
-							class="tooltipped" data-position="bottom" data-delay="50"
-							data-tooltip="Imprimir"><i class="material-icons ">print</i></a>
+						data-delay="50" data-tooltip="Download"><i class="material-icons ">file_download</i></a>
+						 <a href="" class="tooltipped" data-position="bottom" data-delay="50"
+						data-tooltip="Imprimir"><i class="material-icons ">print</i></a>
 
 						<a href="" class="tooltipped" data-position="bottom"
-							data-delay="50" data-tooltip="Importar"><i
-							class="material-icons ">file_upload</i></a> <a href=""
-							class="tooltipped" data-position="bottom" data-delay="50"
-							data-tooltip="Ajudar"><i class="material-icons ">help</i></a>
+						data-delay="50" data-tooltip="Importar"><i class="material-icons ">file_upload</i></a>
+						 <a href="" lass="tooltipped" data-position="bottom" data-delay="50"
+						data-tooltip="Ajudar"><i class="material-icons ">help</i></a>
 
 					</div>
 
@@ -57,7 +55,7 @@
 
 						<form th:action="@{/tempo/salvarTempoAtivo}" method="post" th:object="${itemTransacao}">
 							<div class="input-field left black-text col s5 m4 l3">
-								<select id="cad-maq-tmp" name="chaveMaquina"  onchange="atualizarListaValorHora(this.value,this.id)" required="required">
+								<select id="cad-maq-tmp" name="chaveMaquina"  onchange="atualizarListaValorHora(this.value,false)" required="required">
 									<option value="" th:disabled="disabled" th:selected="selected">Selecione uma Máquina</option>								
 									<option th:each="maquina : ${maquinas}" th:text="${maquina.numero}" th:id="${maquina.chaveMaquina}" th:value="${maquina.chaveMaquina}"></option>
 								</select>
@@ -65,7 +63,7 @@
 							</div>
 							<div class="left black-text col s5 m4 l3">
 								<label for="cad-min-tmp">Minutos</label>		
-								<select class="browser-default" id="cad-min-tmp" name="minuto" required="required" onchange="preencheDadosValorHora()">
+								<select class="browser-default" id="cad-min-tmp" name="minuto" required="required" onchange="preencheDadosValorHora(false)">
 									<option value="" th:selected="selected" th:disabled="disabled">Selecione uma Opção</option>
 								</select>
 							</div>
@@ -73,37 +71,39 @@
 								<input id="cad-mod-tmp" class="" type="text" name="modelo"  readonly="readonly" />
 								<label for="cad-mod-tmp">Modelo</label>
 							</div>
-	
+
 							<div class="left black-text col s4 m2 l2">
 								<input id="cad-pre-tmp" class="" type="text" name="precoUnitario" readonly="readonly" />
 								<label for="cad-pre-tmp">Preço</label>
 							</div>
-						
+
 							<button class="btn btn-form col s4 m3 l2" type="submit">Salvar</button>
 							
 						</form>					
 						
 						
 
-				 	 </div>
-				 	
-						<div class="row icon-black">
-						  <ul class="collapsible" data-collapsible="expandable">
-						    <li th:each="transacao,transacaoStat : ${transacoes}">
-						      <div th:each="item : ${transacao.itensTransacao}" class="collapsible-header">Máquina <span th:text="${item.maquina.numero}"></span>
-						      	 <a th:id="btn-prod+${transacaoStat.index}" class="btn-transacao" th:onclick="'showSubLista(\'' + btn-prod + '\',\'' + ${transacaoStat.index} + '\') '"><i class="material-icons right">shopping_cart</i></a>
-							     <a th:id="btn-add-alarm+${transacaoStat.index}" class="btn-transacao" th:onclick="'showSubLista(\'' + btn-add-alarm + '\',\'' + ${transacaoStat.index} + '\')'"><i class="material-icons right">alarm</i></a>
-						      	 <a th:id="btn-off-alarm+${transacaoStat.index}" class="btn-transacao" th:onclick="'showSubLista(\'' + btn-off-alarm + '\',\'' + ${transacaoStat.index} + '\')'"><i class="material-icons right">alarm_off</i></a>
-			
-						      </div>
-						      <div class="collapsible-body">
-								<p th:id="conteudo-add+${transacaoStat.index}">Novo.</p>
-								<p th:id="conteudo-prod+${transacaoStat.index}">produto.</p>
-								<p th:id="conteudo-off+${transacaoStat.index}">Conteudo off</p>
-								
-							  </div>
-						    </li>
-						  </ul>
+					</div>
+
+					<div class="row icon-black">
+						<ul class="collapsible" data-collapsible="expandable">
+							<li th:each="transacao,transacaoStat : ${transacoes}">
+								<div  class="collapsible-header">Máquina <span th:text="${transacao.itensTransacao[0].maquina.numero}"></span>
+									<a th:id="btn-prod+${transacaoStat.index}" class="tooltipped right" th:onclick="'showSubLista(\'' + btn-prod + '\',\'' + ${transacaoStat.index} + '\') '" data-position="bottom" data-delay="50" data-tooltip="Produtos"><i class="material-icons right icon-blue">shopping_cart</i></a>
+									<a th:id="btn-add-alarm+${transacaoStat.index}" class="tooltipped right" th:onclick="'showSubLista(\'' + btn-add-alarm + '\',\'' + ${transacaoStat.index} + '\');atualizarListaValorHora(\'' + ${transacao.itensTransacao[0].maquina.chaveMaquina} + '\' ,  true )'" data-position="bottom" data-delay="50" data-tooltip="Tempo" ><i class="material-icons right icon-green">alarm</i></a>
+									<a th:id="btn-off-alarm+${transacaoStat.index}" class="tooltipped right" th:onclick="'showSubLista(\'' + btn-off-alarm + '\',\'' + ${transacaoStat.index} + '\')'" data-position="bottom" data-delay="50" data-tooltip="Cancelar Tempo"><i class="material-icons right icon-red">alarm_off</i></a>
+
+								</div>
+								<div class="collapsible-body">
+									<div th:id="conteudo-add+${transacaoStat.index}">
+										<div th:replace="controle_de_tempo/ctrl-tempo :: ctrl-tempo(chaveMaquina=${transacao.itensTransacao[0].maquina.chaveMaquina},itensTransacao=${transacao.itensTransacao})" ></div>
+									</div>
+									<div th:id="conteudo-prod+${transacaoStat.index}">produto.</div>
+									<div th:id="conteudo-off+${transacaoStat.index}">Conteudo off</div>
+
+								</div>
+							</li>
+						</ul>
 					</div>
 				</div>
 
@@ -113,7 +113,7 @@
 
 
 	<script type="text/javascript"
-		src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script th:src="@{/static/css/materialize.js}"></script>
 	<script type="text/javascript" th:src="@{/static/js/libs/lib.js}"></script>
 	<script type="text/javascript" th:src="@{/static/js/libs/jquery.cookie.js}"></script>

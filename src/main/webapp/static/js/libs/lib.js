@@ -6,6 +6,15 @@ $(document).ready(function() {
 
 });
 
+//necessario para pegar o CSRF-TOKEN
+var geraToken = function() {
+	var token = $("input[name='_csrf']").val();
+	var header = "X-CSRF-TOKEN";
+	$(document).ajaxSend(function(e, xhr, options) {
+		xhr.setRequestHeader(header, token);
+	});
+};
+
 var habilitarEdicao = function(indice, nome, descricao) {
 
 	var inputNome = $("<td id='td-nome" + indice
@@ -19,15 +28,8 @@ var habilitarEdicao = function(indice, nome, descricao) {
 	$('#btn-editado' + indice).show();
 	$('#btn-editar' + indice).hide();
 
-}
-// necessario para pegar o CSRF-TOKEN
-var geraToken = function() {
-	var token = $("input[name='_csrf']").val();
-	var header = "X-CSRF-TOKEN";
-	$(document).ajaxSend(function(e, xhr, options) {
-		xhr.setRequestHeader(header, token);
-	});
-}
+};
+
 
 var salvarEdicao = function(indice, chaveCategoria) {
 
@@ -116,23 +118,24 @@ var inserirInformacoesTecnicas = function(nome, precoCompra, categorias,
 
 };
 
-var atualizarListaValorHora = function(numero) {
+var atualizarListaValorHora = function(chaveMaquina,isLista) {
+	var extensaoId = isLista ? "-list" : "";
 
 	$.get("/gerencia/tempo/atualizarListaValorHora",
 					{
-						"numero" : numero
+						"chaveMaquina" : chaveMaquina
 					},
 					function(data) {
-						$('#cad-min-tmp').empty();
-						$('#cad-mod-tmp').val("")
-						$('#cad-pre-tmp').val("")
-						$('#cad-min-tmp')
+						$('#cad-min-tmp'+extensaoId).empty();
+						$('#cad-mod-tmp'+extensaoId).val("")
+						$('#cad-pre-tmp'+extensaoId).val("")
+						$('#cad-min-tmp'+extensaoId)
 								.append(
 										'<option value="" th:selected="selected" th:disabled="disabled">Selecione uma Opção</option>');
 
+						
 						$.each(data, function(index, value) {
-
-							$('#cad-min-tmp').append(
+							$('#cad-min-tmp'+extensaoId).append(
 									'<option id="' + value.chaveValorHora
 											+ '" >'
 											+ value.minuto + '</option>');
@@ -143,12 +146,14 @@ var atualizarListaValorHora = function(numero) {
 					
 };
 
-var preencheDadosValorHora = function(){
+
+var preencheDadosValorHora = function(isLista){
+	var extensaoId = isLista ? "-list" : "";
 
 	$.each(JSON.parse($.cookie('valorSelecionado')), function(index,value){
-		if(value.chaveValorHora == $('#cad-min-tmp').children(":selected").attr("id")){
-			$('#cad-mod-tmp').val(value.modelo)
-			$('#cad-pre-tmp').val(value.preco)
+		if(value.chaveValorHora == $('#cad-min-tmp'+extensaoId).children(":selected").attr("id")){
+			$('#cad-mod-tmp'+extensaoId).val(value.modelo)
+			$('#cad-pre-tmp'+extensaoId).val(value.preco)
 		}
 	});
 	
@@ -222,7 +227,7 @@ var validadorCpf = function(strCPF, id) {
 	document.getElementById(id).value = cpf;
 	if (strCPF.length == 11) {
 		cpf = strCPF.split("").map(Number);
-		cpf.reverse()
+		cpf.reverse();
 		for (var i = 2; i < cpf.length + 1; i++) {
 			d1 = i < 11 ? i == 10 ? ((d1 + cpf[i] * i) * 10) % 11 : d1 + cpf[i]
 					* i : d1;
@@ -234,7 +239,22 @@ var validadorCpf = function(strCPF, id) {
 		var digito2 = digito1 ? cpf[0] == d2 ? true : d2 == 10 ? true
 				: d2 == 11 ? true : false : false;
 
-		console.log(digito1)
+		var numeros = ['0','1','2','3','4','5','6','7','8','9'];
+		var numerosIguais = [] ;
+		
+		for (var i = 0; i < numeros.length; i++) {
+			cpf.forEach(function(value){
+				if(value == numeros[i])
+					numerosIguais.push(value);
+			});
+			
+			if(numerosIguais.length == 11){
+				digito1 = false;
+			}else{
+				numerosIguais = [];
+			}
+		}
+		
 		if (digito1 & digito2)
 			console.log("cpf Valido");
 		else

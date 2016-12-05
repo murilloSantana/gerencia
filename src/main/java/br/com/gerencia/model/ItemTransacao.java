@@ -28,9 +28,9 @@ public class ItemTransacao {
 	private Long chaveItemTransacao;
 	@Column(name = "preco_unitario")
 	private Double precoUnitario;
-	@Column
+	@Column(name = "data_transacao")
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
-	private LocalDateTime data;
+	private LocalDateTime dataTransacao;
 	@Column(name = "hora_inicio")
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
 	private LocalDateTime horaInicio;
@@ -58,13 +58,14 @@ public class ItemTransacao {
 		super();
 	}
 
-	public ItemTransacao(Long chaveItemTransacao, Double precoUnitario, LocalDateTime data, LocalDateTime horaInicio,
+	
+
+	public ItemTransacao(Double precoUnitario, LocalDateTime dataTransacao, LocalDateTime horaInicio,
 			LocalDateTime horaFim, Transacao transacao, Produto produto, Integer minuto, String modelo,
 			Maquina maquina) {
 		super();
-		this.chaveItemTransacao = chaveItemTransacao;
 		this.precoUnitario = precoUnitario;
-		this.data = data;
+		this.dataTransacao = dataTransacao;
 		this.horaInicio = horaInicio;
 		this.horaFim = horaFim;
 		this.transacao = transacao;
@@ -74,20 +75,26 @@ public class ItemTransacao {
 		this.maquina = maquina;
 	}
 
+
+
+	public LocalDateTime getDataTransacao() {
+		return dataTransacao;
+	}
+
+
+
+	public void setDataTransacao(LocalDateTime dataTransacao) {
+		this.dataTransacao = dataTransacao;
+	}
+
+
+
 	public Double getPrecoUnitario() {
 		return precoUnitario;
 	}
 
 	public void setPrecoUnitario(Double precoUnitario) {
 		this.precoUnitario = precoUnitario;
-	}
-
-	public LocalDateTime getData() {
-		return data;
-	}
-
-	public void setData(LocalDateTime data) {
-		this.data = data;
 	}
 
 	public LocalDateTime getHoraInicio() {

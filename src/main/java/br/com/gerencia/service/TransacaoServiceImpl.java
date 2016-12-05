@@ -46,7 +46,7 @@ public class TransacaoServiceImpl implements TransacaoService{
 			return transacaoDAO.transacoesAtivas();
 		}
 
-		public Boolean isTransacaoAtiva(Integer numeroMaquina) {
-			return transacaoDAO.isTransacaoAtiva(numeroMaquina);
+		public Transacao isTransacaoAtiva(Integer chaveMaquina) {
+			return transacaoDAO.isTransacaoAtiva(chaveMaquina);
 		}
 }

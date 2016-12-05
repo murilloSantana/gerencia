@@ -41,10 +41,6 @@ public class MaquinaServiceImpl implements MaquinaService{
 		return maquinaDAO.pesquisarMaquinaPorChave(chave);
 	}
 
-	public Boolean isMaquinaExists(Integer numero) {
-		return maquinaDAO.isMaquinaExists(numero);
-	}
-
 	public List<Maquina> pesquisarMaquinaPorNome(String nomeAtributo, Integer valor) {
 		return maquinaDAO.pesquisarMaquinaPorNome(nomeAtributo, valor);
 	}

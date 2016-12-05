@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -44,13 +45,14 @@ public class Produto implements Serializable {
 	@Column(name = "descricao_produto")
 	private String descricaoProduto;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	@JoinColumn(name="chave_info_tecnicas")
+	@JoinColumn(name = "chave_info_tecnicas")
 	private InformacoesTecnicas infoTecnicas;
 	@ManyToMany
 	@JoinTable(name = "produto_categoria", joinColumns = { @JoinColumn(name = "chave_produto") }, inverseJoinColumns = {
 			@JoinColumn(name = "chave_categoria") })
 	private List<Categoria> categorias;
-	
+	@OneToMany(mappedBy = "itemTransacao", targetEntity = ItemTransacao.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private ItemTransacao itemTransacao;
 	@Transient
 	private String precoCompraNoFormatado;
 	@Transient

@@ -14,5 +14,5 @@ public interface TransacaoService {
 	List<Transacao> pesquisarTransacaoPorNome(String nomeAtributo, String valor);
 	Transacao pesquisarTransacaoPorChave(Long chave);
 	List<Transacao> transacoesAtivas();
-	Boolean isTransacaoAtiva(Integer numeroMaquina);
+	Transacao isTransacaoAtiva(Integer chaveMaquina);
 }

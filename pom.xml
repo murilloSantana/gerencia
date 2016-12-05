@@ -58,6 +58,7 @@
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+
 		<!-- Dependencias Spring -->
 
 		<!-- Dependencias hibernate -->
@@ -131,6 +132,12 @@
 			<artifactId>usertype.core</artifactId>
 			<version>3.1.0.CR1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-java8time</artifactId>
+			<version>3.0.0.RELEASE</version>
+		</dependency>
+
 		<!-- Dependencias joda-time(Para trabalhar com datas) -->
 
 		<dependency>
