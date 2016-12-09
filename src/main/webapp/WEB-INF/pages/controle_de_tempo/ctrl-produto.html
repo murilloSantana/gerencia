@@ -1,10 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/static/css/styleReset.css}">
+	<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet"
+	th:href="@{/static/fonts/font-awesome/css/font-awesome.min.css}">
+
+	<link href="http://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+	<!--Import materialize.css-->
+	<link rel="stylesheet" th:href="@{/static/css/materialize.css}">
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/static/css/style.css}">
+
+	<title>Gerencia</title>
+
 </head>
 <body>
+	
+	<div th:fragment="ctrl-produto">
+		
+		<div class="row">
+		  <form class="col s12"th:action="@{/tempo/salvarProdutoAtivo}" method="post" th:object="${produto}">
+			
+				<div class="input-field left black-text col s5 m4 l3">
+					<input id="cad-cod-prod" class="" type="text" th:field="*{codigoBarras}" />
+					<label for="cad-cod-prod">Código de Barras</label>
+				</div>
+	
+				<div class="input-field left black-text col s5 m4 l3">
+					<input id="cad-nome-prod" class="autocomplete" type="text" th:field="*{nomeProduto}" />
+					<label for="cad-nome-prod">Nome do Produto</label>
+				</div>
+				
+		<!--  	<div class="input-field left black-text col s4 m3 l2">
+					<input id="cad-qtd-prod" class="" type="number" th:field="*{quantidade}" minLength="1" />
+					<label for="cad-qtd-prod">Quantidade</label>
+				</div>-->
+				
+				<div class="left black-text col s4 m3 l2">
+					<input id="cad-pre-prod" class="" type="text" th:field="*{precoUnitario}" readonly="readonly" />
+					<label for="cad-pre-prod">Preço</label>
+				</div>
+				<input type="hidden" name="chaveMaquina" th:value="${chaveMaquina}">
+				<button class="btn btn-form col s4 m3 l2" type="submit">Salvar</button>
+			</form>
+		</div>
+		<div class="row ">
+			<div class="col s12">
+			<table class="responsive-table bordered striped btn-table">
+				<thead>
+					<tr>
+					  <th data-field="codigoBarras">Código de Barras</th>
+					  <th data-field="nomeProduto">Nome do Produto</th>
+					  <th data-field="quantidade">Quantidade</th>
+					  <th data-field="precoUnitario" >Preço</th>
+					  <th></th>
+					</tr>
+				</thead> 
+				<tbody>
+					<tr th:each="produto : ${produtos}">
+					  <td th:text="${produto.nomeProduto}"></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					  <td></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>	
+		</div>
+	</div>
 
+	<script type="text/javascript" th:src="@{/static/js/libs/jquery-3.1.1.js}"></script>
+	<script th:src="@{/static/css/materialize.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/libs/lib.js}"></script>
+	
 </body>
 </html>

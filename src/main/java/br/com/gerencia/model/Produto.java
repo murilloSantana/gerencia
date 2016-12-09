@@ -24,11 +24,14 @@ import org.springframework.stereotype.Component;
 @Entity
 @Table(name = "produto")
 @Component
+
 public class Produto implements Serializable {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2951177454670517236L;
+	private static final long serialVersionUID = -1029806744446886178L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "produto_seq")
 	@SequenceGenerator(name = "produto_seq", sequenceName = "chave_produto_seq", allocationSize = 1)
@@ -44,15 +47,15 @@ public class Produto implements Serializable {
 	private Double precoUnitario;
 	@Column(name = "descricao_produto")
 	private String descricaoProduto;
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "chave_info_tecnicas")
 	private InformacoesTecnicas infoTecnicas;
 	@ManyToMany
 	@JoinTable(name = "produto_categoria", joinColumns = { @JoinColumn(name = "chave_produto") }, inverseJoinColumns = {
 			@JoinColumn(name = "chave_categoria") })
 	private List<Categoria> categorias;
-	@OneToMany(mappedBy = "itemTransacao", targetEntity = ItemTransacao.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private ItemTransacao itemTransacao;
+	@OneToMany(mappedBy = "produto", targetEntity = ItemTransacao.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<ItemTransacao> itensTransacao;
 	@Transient
 	private String precoCompraNoFormatado;
 	@Transient
@@ -68,20 +71,21 @@ public class Produto implements Serializable {
 		super();
 	}
 
-	public Produto(Long chaveProduto, String nomeProduto, Long codigoBarras, Double precoCompra, Double precoUnitario,
-			String descricaoProduto, String precoCompraNoFormatado, String precoUnitarioNoFormatado,
-			InformacoesTecnicas infoTecnicas, List<Categoria> categorias, List<Long> categoriaId) {
+	public Produto(String nomeProduto, Long codigoBarras, Double precoCompra, Double precoUnitario,
+			String descricaoProduto, InformacoesTecnicas infoTecnicas, List<Categoria> categorias,
+			List<ItemTransacao> itensTransacao, String precoCompraNoFormatado, String precoUnitarioNoFormatado,
+			List<Long> categoriaId) {
 		super();
-		this.chaveProduto = chaveProduto;
 		this.nomeProduto = nomeProduto;
 		this.codigoBarras = codigoBarras;
 		this.precoCompra = precoCompra;
 		this.precoUnitario = precoUnitario;
 		this.descricaoProduto = descricaoProduto;
-		this.precoCompraNoFormatado = precoCompraNoFormatado;
-		this.precoUnitarioNoFormatado = precoUnitarioNoFormatado;
 		this.infoTecnicas = infoTecnicas;
 		this.categorias = categorias;
+		this.itensTransacao = itensTransacao;
+		this.precoCompraNoFormatado = precoCompraNoFormatado;
+		this.precoUnitarioNoFormatado = precoUnitarioNoFormatado;
 		this.categoriaId = categoriaId;
 	}
 
@@ -167,6 +171,14 @@ public class Produto implements Serializable {
 
 	public void setInfoTecnicas(InformacoesTecnicas infoTecnicas) {
 		this.infoTecnicas = infoTecnicas;
+	}
+
+	public List<ItemTransacao> getItensTransacao() {
+		return itensTransacao;
+	}
+
+	public void setItensTransacao(List<ItemTransacao> itensTransacao) {
+		this.itensTransacao = itensTransacao;
 	}
 
 	public static long getSerialversionuid() {

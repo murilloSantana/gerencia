@@ -1,7 +1,5 @@
 package br.com.gerencia.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,11 +13,8 @@ import org.springframework.stereotype.Component;
 @Entity
 @Table(name = "informacoes_tecnicas")
 @Component
-public class InformacoesTecnicas implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2511198023739659049L;
+public class InformacoesTecnicas{
+
 	@Id
 	@GeneratedValue(generator = "info_tecnica_seq", strategy = GenerationType.IDENTITY)
 	@Column(name = "chave_info_tecnica")
@@ -95,11 +90,5 @@ public class InformacoesTecnicas implements Serializable{
 	public Long getChaveInfoTecnica() {
 		return chaveInfoTecnica;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-
 
 }

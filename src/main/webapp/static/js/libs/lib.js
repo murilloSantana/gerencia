@@ -4,8 +4,29 @@ $(document).ready(function() {
 	$('.button-collapse').sideNav();
 	// $('.modal-close').modal('close');
 
-});
+	
 
+
+	  $('#cad-nome-prod').autocomplete({
+		    data: getProdutos()
+	  });
+});
+var getProdutos = function(){
+	var retorno
+	$.ajax({
+	    url:    "/gerencia/tempo/carregarProdutos",
+	    type:   "get",
+	    dataType:"json",
+	    async: false,
+
+	    success: function( data ){
+	        retorno = data;           
+	    }
+	});
+
+	console.log(retorno)
+	return retorno
+}
 //necessario para pegar o CSRF-TOKEN
 var geraToken = function() {
 	var token = $("input[name='_csrf']").val();
@@ -29,7 +50,17 @@ var habilitarEdicao = function(indice, nome, descricao) {
 	$('#btn-editar' + indice).hide();
 
 };
-
+$(function() {
+	var esportes = [
+		"Natação",
+		"Futebol",
+		"Vôlei",
+		"Basquete"
+	];
+	$("#cad-nome-prod" ).autocomplete({
+		source: esportes
+	});
+});
 
 var salvarEdicao = function(indice, chaveCategoria) {
 
@@ -121,6 +152,8 @@ var inserirInformacoesTecnicas = function(nome, precoCompra, categorias,
 var atualizarListaValorHora = function(chaveMaquina,isLista) {
 	var extensaoId = isLista ? "-list" : "";
 
+	
+	
 	$.get("/gerencia/tempo/atualizarListaValorHora",
 					{
 						"chaveMaquina" : chaveMaquina
@@ -141,8 +174,7 @@ var atualizarListaValorHora = function(chaveMaquina,isLista) {
 											+ value.minuto + '</option>');
 						});
 						$.cookie('valorSelecionado',JSON.stringify(data));
-					})
-					
+					})		
 					
 };
 

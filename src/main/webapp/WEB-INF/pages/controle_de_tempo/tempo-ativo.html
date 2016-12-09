@@ -98,7 +98,9 @@
 									<div th:id="conteudo-add+${transacaoStat.index}">
 										<div th:replace="controle_de_tempo/ctrl-tempo :: ctrl-tempo(chaveMaquina=${transacao.itensTransacao[0].maquina.chaveMaquina},itensTransacao=${transacao.itensTransacao})" ></div>
 									</div>
-									<div th:id="conteudo-prod+${transacaoStat.index}">produto.</div>
+									<div th:id="conteudo-prod+${transacaoStat.index}">
+										<div th:replace="controle_de_tempo/ctrl-produto :: ctrl-produto"></div>
+									</div>
 									<div th:id="conteudo-off+${transacaoStat.index}">Conteudo off</div>
 
 								</div>
@@ -112,8 +114,7 @@
 	</div>
 
 
-	<script type="text/javascript"
-	src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" th:src="@{/static/js/libs/jquery-3.1.1.js}"></script>
 	<script th:src="@{/static/css/materialize.js}"></script>
 	<script type="text/javascript" th:src="@{/static/js/libs/lib.js}"></script>
 	<script type="text/javascript" th:src="@{/static/js/libs/jquery.cookie.js}"></script>

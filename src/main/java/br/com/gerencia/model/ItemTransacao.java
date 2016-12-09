@@ -37,10 +37,11 @@ public class ItemTransacao {
 	@Column(name = "hora_fim")
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
 	private LocalDateTime horaFim;
-
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "transacao_id")
 	private Transacao transacao;
+	@Column
+	private Integer quantidade;
 	// @Column(name = "orcamento_venda")
 	// private OrcamentoVenda orcamentoVenda;
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -58,36 +59,37 @@ public class ItemTransacao {
 		super();
 	}
 
-	
-
 	public ItemTransacao(Double precoUnitario, LocalDateTime dataTransacao, LocalDateTime horaInicio,
-			LocalDateTime horaFim, Transacao transacao, Produto produto, Integer minuto, String modelo,
-			Maquina maquina) {
+			LocalDateTime horaFim, Transacao transacao, Integer quantidade, Produto produto, Integer minuto,
+			String modelo, Maquina maquina) {
 		super();
 		this.precoUnitario = precoUnitario;
 		this.dataTransacao = dataTransacao;
 		this.horaInicio = horaInicio;
 		this.horaFim = horaFim;
 		this.transacao = transacao;
+		this.quantidade = quantidade;
 		this.produto = produto;
 		this.minuto = minuto;
 		this.modelo = modelo;
 		this.maquina = maquina;
 	}
 
+	public Integer getQuantidade() {
+		return quantidade;
+	}
 
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
 
 	public LocalDateTime getDataTransacao() {
 		return dataTransacao;
 	}
 
-
-
 	public void setDataTransacao(LocalDateTime dataTransacao) {
 		this.dataTransacao = dataTransacao;
 	}
-
-
 
 	public Double getPrecoUnitario() {
 		return precoUnitario;

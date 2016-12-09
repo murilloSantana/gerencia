@@ -27,7 +27,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "br.com.gerencia")
-public class MappingConfig<JodaDialect> extends WebMvcConfigurerAdapter implements ApplicationContextAware {
+public class MappingConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
 

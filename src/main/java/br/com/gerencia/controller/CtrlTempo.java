@@ -1,6 +1,7 @@
 package br.com.gerencia.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,10 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 import br.com.gerencia.constants.ModeloGame;
 import br.com.gerencia.constants.StaticCaminho;
 import br.com.gerencia.model.ItemTransacao;
+import br.com.gerencia.model.Produto;
 import br.com.gerencia.model.Transacao;
 import br.com.gerencia.model.loja.Maquina;
 import br.com.gerencia.model.loja.ValorHora;
 import br.com.gerencia.service.ItemTransacaoService;
+import br.com.gerencia.service.ProdutoService;
 import br.com.gerencia.service.TransacaoService;
 import br.com.gerencia.service.loja.MaquinaService;
 import br.com.gerencia.service.loja.ValorHoraService;
@@ -41,8 +44,10 @@ public class CtrlTempo {
 	private ItemTransacaoService itemTransacaoService;
 	@Autowired
 	private TransacaoService transacaoService;
+	@Autowired
+	private ProdutoService produtoService;
 
-	
+
 	@RequestMapping(value = { "/tabelaPreco" }, method = RequestMethod.GET)
 	public String tabelaPrecoPage(ModelMap model) {
 		model.addAttribute("modelos", ModeloGame.values());
@@ -57,10 +62,11 @@ public class CtrlTempo {
 
 		modelAndView.addObject("valores", valores == null ? valorHoraService.listarValorHora() : valores);
 		model.addAttribute("maquinas", maquinaService.listarMaquinas());
-		model.addAttribute("transacoes", transacaoService.transacoesAtivas());	
+		model.addAttribute("transacoes", transacaoService.transacoesAtivas());
 		model.addAttribute("itemTransacao", new ItemTransacao());
+		model.addAttribute("produto", new Produto());
 		modelAndView.setViewName(StaticCaminho.strCaminhoControleTempo + "tempo-ativo");
-		
+
 		return modelAndView;
 	}
 
@@ -78,23 +84,30 @@ public class CtrlTempo {
 		itemTransacao.setDataTransacao(itemTransacaoService.calcularTempo());
 		itens.add(itemTransacao);
 
-		//verificando se a transacao esta ativa, se estiver é retornado uma transacao para o atributo
-		if((transacaoService.isTransacaoAtiva(maquinaChave.intValue())) != null){
-			
+		// verificando se a transacao esta ativa, se estiver é retornado uma
+		// transacao para o atributo
+		if ((transacaoService.isTransacaoAtiva(maquinaChave.intValue())) != null) {
+
 			transacao = transacaoService.isTransacaoAtiva(maquinaChave.intValue());
 			transacao.setItensTransacao(itens);
 			itemTransacao.setTransacao(transacao);
 			transacaoService.salvarTransacao(transacao);
-		}else{
-			
-		    transacao = new Transacao(itemTransacao.getHoraInicio(), "Transacao de tempo",
+		} else {
+
+			transacao = new Transacao(itemTransacao.getHoraInicio(), "Transacao de tempo",
 					itemTransacao.getPrecoUnitario(), false, null, true, itens);
 
 			itemTransacao.setTransacao(transacao);
 			itemTransacaoService.salvarItemTransacao(itemTransacao);
 		}
-		
 
+		return "redirect:/tempo/temposAtivos";
+	}
+
+	@RequestMapping(value = { "/salvarProdutoAtivo" }, method = RequestMethod.POST)
+	public String salvarProdutoAtivo(@ModelAttribute("produto") Produto produto) {
+
+		System.out.println(produto.getNomeProduto());
 
 		return "redirect:/tempo/temposAtivos";
 	}
@@ -124,4 +137,18 @@ public class CtrlTempo {
 		return "redirect:/tempo/tabelaPreco";
 	}
 
+	@RequestMapping(value = { "/carregarProdutos" }, method = RequestMethod.GET)
+	public @ResponseBody HashMap<String,Long> carregarProdutos() {
+		HashMap<String,Long> nomesProdutos = new HashMap<String, Long>();
+		
+		try {
+			for (Produto produto : produtoService.listarProdutos()) {
+				nomesProdutos.put(produto.getNomeProduto(),produto.getCodigoBarras());
+			}
+		} catch (Exception e) {
+
+		}
+		return nomesProdutos;
+
+	}
 }

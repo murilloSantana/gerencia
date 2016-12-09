@@ -280,7 +280,7 @@ input[type=text]:focus + span:after
   opacity: 1;
   font-size:12px;  
 }
-input[type=text]{
+input[type=text]:not(.autocomplete){
 	margin: 0 0 0 0;
 	content: attr(data-label);	
 }

@@ -14,11 +14,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "categoria")
+
 public class Categoria implements Serializable{
+
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1726399609794699389L;
+	private static final long serialVersionUID = 7651520293917847215L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "categoria_seq")
@@ -74,5 +77,10 @@ public class Categoria implements Serializable{
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 
 }
