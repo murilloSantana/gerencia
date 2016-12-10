@@ -14,9 +14,13 @@
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
 	<!--Import materialize.css-->
+	<link rel="stylesheet" th:href="@{/static/css/easy-autocomplete.css}"> 
+	<link rel="stylesheet" th:href="@{/static/css/easy-autocomplete.themes.css}"> 
 	<link rel="stylesheet" th:href="@{/static/css/materialize.css}">
 	<link rel="stylesheet" type="text/css"
 	th:href="@{/static/css/style.css}">
+	
+	
 </head>
 <body>
 
@@ -42,7 +46,7 @@
 
 						<a href="" class="tooltipped" data-position="bottom"
 						data-delay="50" data-tooltip="Importar"><i class="material-icons ">file_upload</i></a>
-						 <a href="" lass="tooltipped" data-position="bottom" data-delay="50"
+						 <a href="" class="tooltipped" data-position="bottom" data-delay="50"
 						data-tooltip="Ajudar"><i class="material-icons ">help</i></a>
 
 					</div>
@@ -118,6 +122,7 @@
 	<script th:src="@{/static/css/materialize.js}"></script>
 	<script type="text/javascript" th:src="@{/static/js/libs/lib.js}"></script>
 	<script type="text/javascript" th:src="@{/static/js/libs/jquery.cookie.js}"></script>
+	<script th:src="@{/static/js/libs/jquery.easy-autocomplete.min.js}"></script> 
 
 </body>
 </html>

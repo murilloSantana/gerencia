@@ -4,13 +4,13 @@ $(document).ready(function() {
 	$('.button-collapse').sideNav();
 	// $('.modal-close').modal('close');
 
-	
 
+	$("#cad-nome-prod-temp").easyAutocomplete(getProdutos());
 
-	  $('#cad-nome-prod').autocomplete({
-		    data: getProdutos()
-	  });
 });
+
+
+
 var getProdutos = function(){
 	var retorno
 	$.ajax({
@@ -20,12 +20,27 @@ var getProdutos = function(){
 	    async: false,
 
 	    success: function( data ){
-	        retorno = data;           
+	        retorno = data;        
+			$.cookie('listaProdutos',JSON.stringify(retorno));
 	    }
 	});
-
-	console.log(retorno)
-	return retorno
+	var produtos = {
+			data:retorno.produtos,
+			getValue: "nomeProduto",
+			list: {
+				match: {
+					enabled: true
+				},
+				onSelectItemEvent:function(){
+					var codigoBarras = $('#cad-nome-prod-temp').getSelectedItemData().codigoBarras;
+					var precoUnitario = $('#cad-nome-prod-temp').getSelectedItemData().precoUnitario;
+					$("#cad-cod-prod-temp").val(codigoBarras).trigger("change");
+					$("#cad-pre-prod-temp").val(precoUnitario).trigger("change");
+				}
+			},
+			adjustWidth: false
+	}
+	return produtos
 }
 //necessario para pegar o CSRF-TOKEN
 var geraToken = function() {
@@ -50,17 +65,7 @@ var habilitarEdicao = function(indice, nome, descricao) {
 	$('#btn-editar' + indice).hide();
 
 };
-$(function() {
-	var esportes = [
-		"Natação",
-		"Futebol",
-		"Vôlei",
-		"Basquete"
-	];
-	$("#cad-nome-prod" ).autocomplete({
-		source: esportes
-	});
-});
+
 
 var salvarEdicao = function(indice, chaveCategoria) {
 

@@ -21,6 +21,8 @@ import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "produto")
 @Component
@@ -53,6 +55,7 @@ public class Produto implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "produto_categoria", joinColumns = { @JoinColumn(name = "chave_produto") }, inverseJoinColumns = {
 			@JoinColumn(name = "chave_categoria") })
+	@JsonIgnore
 	private List<Categoria> categorias;
 	@OneToMany(mappedBy = "produto", targetEntity = ItemTransacao.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<ItemTransacao> itensTransacao;
@@ -89,9 +92,7 @@ public class Produto implements Serializable {
 		this.categoriaId = categoriaId;
 	}
 
-	public void setChaveProduto(Long chaveProduto) {
-		this.chaveProduto = chaveProduto;
-	}
+
 
 	public String getNomeProduto() {
 		return nomeProduto;
@@ -183,6 +184,53 @@ public class Produto implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Long getChaveProduto() {
+		return chaveProduto;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((categorias == null) ? 0 : categorias.hashCode());
+		result = prime * result + ((chaveProduto == null) ? 0 : chaveProduto.hashCode());
+		result = prime * result + ((infoTecnicas == null) ? 0 : infoTecnicas.hashCode());
+		result = prime * result + ((itensTransacao == null) ? 0 : itensTransacao.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Produto other = (Produto) obj;
+		if (categorias == null) {
+			if (other.categorias != null)
+				return false;
+		} else if (!categorias.equals(other.categorias))
+			return false;
+		if (chaveProduto == null) {
+			if (other.chaveProduto != null)
+				return false;
+		} else if (!chaveProduto.equals(other.chaveProduto))
+			return false;
+		if (infoTecnicas == null) {
+			if (other.infoTecnicas != null)
+				return false;
+		} else if (!infoTecnicas.equals(other.infoTecnicas))
+			return false;
+		if (itensTransacao == null) {
+			if (other.itensTransacao != null)
+				return false;
+		} else if (!itensTransacao.equals(other.itensTransacao))
+			return false;
+		return true;
 	}
 
 }

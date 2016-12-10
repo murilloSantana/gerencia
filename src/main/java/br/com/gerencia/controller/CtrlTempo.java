@@ -3,6 +3,7 @@ package br.com.gerencia.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -138,17 +139,18 @@ public class CtrlTempo {
 	}
 
 	@RequestMapping(value = { "/carregarProdutos" }, method = RequestMethod.GET)
-	public @ResponseBody HashMap<String,Long> carregarProdutos() {
-		HashMap<String,Long> nomesProdutos = new HashMap<String, Long>();
-		
+	public @ResponseBody Map<String, Object> carregarProdutos(ModelAndView model) {
+		List<Produto> produtos = new ArrayList<Produto>();
 		try {
+			
 			for (Produto produto : produtoService.listarProdutos()) {
-				nomesProdutos.put(produto.getNomeProduto(),produto.getCodigoBarras());
+				produtos.add(produto);			
 			}
+			model.addObject("produtos",produtos);
 		} catch (Exception e) {
 
 		}
-		return nomesProdutos;
+		return model.getModelMap();
 
 	}
 }

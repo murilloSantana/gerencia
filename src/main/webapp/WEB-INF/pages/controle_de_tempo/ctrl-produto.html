@@ -9,6 +9,8 @@
 
 	<link rel="stylesheet" type="text/css"
 	th:href="@{/static/css/styleReset.css}">
+	<link rel="stylesheet" th:href="@{/static/css/easy-autocomplete.css}"> 
+	<link rel="stylesheet" th:href="@{/static/css/easy-autocomplete.themes.css}"> 
 	<link rel="stylesheet"
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet"
@@ -32,23 +34,23 @@
 		  <form class="col s12"th:action="@{/tempo/salvarProdutoAtivo}" method="post" th:object="${produto}">
 			
 				<div class="input-field left black-text col s5 m4 l3">
-					<input id="cad-cod-prod" class="" type="text" th:field="*{codigoBarras}" />
-					<label for="cad-cod-prod">Código de Barras</label>
+					<input id="cad-cod-prod-temp" class="" type="text" th:field="*{codigoBarras}" />
+					<label for="cad-cod-prod-temp" id="label-cod-prod-temp">Código de Barras</label>
 				</div>
 	
 				<div class="input-field left black-text col s5 m4 l3">
-					<input id="cad-nome-prod" class="autocomplete" type="text" th:field="*{nomeProduto}" />
-					<label for="cad-nome-prod">Nome do Produto</label>
+					<input id="cad-nome-prod-temp" type="text" th:field="*{nomeProduto}" />
+					<label for="cad-nome-prod-temp">Nome do Produto</label>
 				</div>
 				
-		<!--  	<div class="input-field left black-text col s4 m3 l2">
-					<input id="cad-qtd-prod" class="" type="number" th:field="*{quantidade}" minLength="1" />
+		     	<div class="input-field left black-text col s4 m3 l2">
+					<input id="cad-qtd-prod" class="" type="number" min="1" />
 					<label for="cad-qtd-prod">Quantidade</label>
-				</div>-->
+				</div>
 				
-				<div class="left black-text col s4 m3 l2">
-					<input id="cad-pre-prod" class="" type="text" th:field="*{precoUnitario}" readonly="readonly" />
-					<label for="cad-pre-prod">Preço</label>
+				<div class="input-field left black-text col s4 m3 l2">
+					<input id="cad-pre-prod-temp" class="" type="text" th:field="*{precoUnitario}" />
+					<label for="cad-pre-prod-temp">Preço</label>
 				</div>
 				<input type="hidden" name="chaveMaquina" th:value="${chaveMaquina}">
 				<button class="btn btn-form col s4 m3 l2" type="submit">Salvar</button>
