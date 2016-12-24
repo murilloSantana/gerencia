@@ -11,8 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -21,19 +19,20 @@ import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "produto")
 @Component
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "chaveProduto")
+public class Produto{
 
-public class Produto implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1029806744446886178L;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "produto_seq")
 	@SequenceGenerator(name = "produto_seq", sequenceName = "chave_produto_seq", allocationSize = 1)
@@ -52,13 +51,13 @@ public class Produto implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "chave_info_tecnicas")
 	private InformacoesTecnicas infoTecnicas;
-	@ManyToMany
-	@JoinTable(name = "produto_categoria", joinColumns = { @JoinColumn(name = "chave_produto") }, inverseJoinColumns = {
-			@JoinColumn(name = "chave_categoria") })
+//	@ManyToMany(cascade=CascadeType.ALL)
+//	@JoinTable(name = "produto_categoria", joinColumns = { @JoinColumn(name = "chave_produto") }, inverseJoinColumns = {
+//			@JoinColumn(name = "chave_categoria") })
+	@OneToMany(mappedBy = "produto", targetEntity = Categoria.class,cascade=CascadeType.ALL)
 	@JsonIgnore
 	private List<Categoria> categorias;
-	@OneToMany(mappedBy = "produto", targetEntity = ItemTransacao.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<ItemTransacao> itensTransacao;
+//	@OneToMany(mappedBy = "produto", targetEntity = ItemTransacao.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Transient
 	private String precoCompraNoFormatado;
 	@Transient
@@ -76,8 +75,7 @@ public class Produto implements Serializable {
 
 	public Produto(String nomeProduto, Long codigoBarras, Double precoCompra, Double precoUnitario,
 			String descricaoProduto, InformacoesTecnicas infoTecnicas, List<Categoria> categorias,
-			List<ItemTransacao> itensTransacao, String precoCompraNoFormatado, String precoUnitarioNoFormatado,
-			List<Long> categoriaId) {
+			String precoCompraNoFormatado, String precoUnitarioNoFormatado, List<Long> categoriaId) {
 		super();
 		this.nomeProduto = nomeProduto;
 		this.codigoBarras = codigoBarras;
@@ -86,13 +84,14 @@ public class Produto implements Serializable {
 		this.descricaoProduto = descricaoProduto;
 		this.infoTecnicas = infoTecnicas;
 		this.categorias = categorias;
-		this.itensTransacao = itensTransacao;
 		this.precoCompraNoFormatado = precoCompraNoFormatado;
 		this.precoUnitarioNoFormatado = precoUnitarioNoFormatado;
 		this.categoriaId = categoriaId;
 	}
 
-
+	public void setChaveProduto(Long chaveProduto) {
+		this.chaveProduto = chaveProduto;
+	}
 
 	public String getNomeProduto() {
 		return nomeProduto;
@@ -174,63 +173,10 @@ public class Produto implements Serializable {
 		this.infoTecnicas = infoTecnicas;
 	}
 
-	public List<ItemTransacao> getItensTransacao() {
-		return itensTransacao;
-	}
-
-	public void setItensTransacao(List<ItemTransacao> itensTransacao) {
-		this.itensTransacao = itensTransacao;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	public Long getChaveProduto() {
 		return chaveProduto;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((categorias == null) ? 0 : categorias.hashCode());
-		result = prime * result + ((chaveProduto == null) ? 0 : chaveProduto.hashCode());
-		result = prime * result + ((infoTecnicas == null) ? 0 : infoTecnicas.hashCode());
-		result = prime * result + ((itensTransacao == null) ? 0 : itensTransacao.hashCode());
-		return result;
-	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Produto other = (Produto) obj;
-		if (categorias == null) {
-			if (other.categorias != null)
-				return false;
-		} else if (!categorias.equals(other.categorias))
-			return false;
-		if (chaveProduto == null) {
-			if (other.chaveProduto != null)
-				return false;
-		} else if (!chaveProduto.equals(other.chaveProduto))
-			return false;
-		if (infoTecnicas == null) {
-			if (other.infoTecnicas != null)
-				return false;
-		} else if (!infoTecnicas.equals(other.infoTecnicas))
-			return false;
-		if (itensTransacao == null) {
-			if (other.itensTransacao != null)
-				return false;
-		} else if (!itensTransacao.equals(other.itensTransacao))
-			return false;
-		return true;
-	}
 
 }

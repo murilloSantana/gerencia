@@ -9,7 +9,33 @@ $(document).ready(function() {
 
 });
 
+var preencheCamposCodigo = function(codigo){
+	var produto;
+	if(codigo.length > 12){
+		var retorno
+		$.ajax({
+		    url:    "/gerencia/tempo/carregarProdutos",
+		    type:   "get",
+		    dataType:"json",
+		    async: false,
 
+		    success: function( data ){
+		    	console.log(data)
+
+		        produto = data.find(function(value){
+		        	return value.codigoBarras == codigo;
+		        });        
+		    }
+		});
+		$("#cad-nome-prod-temp").val(produto.nomeProduto);
+		$("#label-nome-prod-temp").addClass('active');
+
+		$("#cad-pre-prod-temp").val(produto.precoUnitario);
+		$("#label-pre-prod-temp").addClass('active');
+
+		$("#cad-chave-prod-temp").val(produto.chaveProduto);
+	 }
+};
 
 var getProdutos = function(){
 	var retorno
@@ -22,10 +48,13 @@ var getProdutos = function(){
 	    success: function( data ){
 	        retorno = data;        
 			$.cookie('listaProdutos',JSON.stringify(retorno));
+			console.log(data)
 	    }
+		
 	});
+	console.log(retorno)
 	var produtos = {
-			data:retorno.produtos,
+			data:retorno,
 			getValue: "nomeProduto",
 			list: {
 				match: {
@@ -34,8 +63,10 @@ var getProdutos = function(){
 				onSelectItemEvent:function(){
 					var codigoBarras = $('#cad-nome-prod-temp').getSelectedItemData().codigoBarras;
 					var precoUnitario = $('#cad-nome-prod-temp').getSelectedItemData().precoUnitario;
+					var chaveProduto = $('#cad-nome-prod-temp').getSelectedItemData().chaveProduto;
 					$("#cad-cod-prod-temp").val(codigoBarras).trigger("change");
 					$("#cad-pre-prod-temp").val(precoUnitario).trigger("change");
+					$("#cad-chave-prod-temp").val(chaveProduto).trigger("change");
 				}
 			},
 			adjustWidth: false

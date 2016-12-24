@@ -60,8 +60,8 @@
 					  <th></th>
 					</tr>
 				</thead> 
-				<tbody>
-					<tr th:each="itens : ${itensTransacao}">		
+				<tbody th:each="itens : ${itensTransacao}" >
+					<tr th:if="${itens.horaInicio != null}">		
 					  <td th:text="${#dates.format(itens.horaInicio.toDate(),'HH:mm:ss')}"></td>
 					  <td th:text="${#dates.format(itens.horaFim.toDate(),'HH:mm:ss')}"></td>
 					  <td th:text="${itens.minuto}"></td>

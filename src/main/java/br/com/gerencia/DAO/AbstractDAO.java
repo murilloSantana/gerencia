@@ -14,7 +14,6 @@ import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.gerencia.model.ContaUsuario;
-
 public abstract class AbstractDAO<PK extends Serializable, T> extends DefaultAbstractDAO<Serializable, T> {
 
 	private final Class<T> classePersistente;

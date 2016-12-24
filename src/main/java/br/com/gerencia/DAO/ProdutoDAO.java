@@ -13,4 +13,5 @@ public interface ProdutoDAO {
 	List<Produto> listarProdutos();
 	List<Produto> pesquisarProdutoPorNome(String nomeAtributo, String valor);
 	Produto pesquisarProdutoPorChave(Long chave);
+	List<Produto> listarProdutosSemCategoria();
 }

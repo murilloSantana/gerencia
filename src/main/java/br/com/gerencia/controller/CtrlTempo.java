@@ -1,9 +1,7 @@
 package br.com.gerencia.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module.Feature;
+
+import br.com.gerencia.DAO.ProdutoDAO;
 import br.com.gerencia.constants.ModeloGame;
 import br.com.gerencia.constants.StaticCaminho;
 import br.com.gerencia.model.ItemTransacao;
@@ -25,6 +30,7 @@ import br.com.gerencia.model.Produto;
 import br.com.gerencia.model.Transacao;
 import br.com.gerencia.model.loja.Maquina;
 import br.com.gerencia.model.loja.ValorHora;
+import br.com.gerencia.service.CategoriaService;
 import br.com.gerencia.service.ItemTransacaoService;
 import br.com.gerencia.service.ProdutoService;
 import br.com.gerencia.service.TransacaoService;
@@ -47,8 +53,12 @@ public class CtrlTempo {
 	private TransacaoService transacaoService;
 	@Autowired
 	private ProdutoService produtoService;
-
-
+	@Autowired
+	private CategoriaService categoriaService;
+	@Autowired
+	private ProdutoDAO produtoDAO;
+	// @Autowired
+	// private MapperProduto mapper;
 	@RequestMapping(value = { "/tabelaPreco" }, method = RequestMethod.GET)
 	public String tabelaPrecoPage(ModelMap model) {
 		model.addAttribute("modelos", ModeloGame.values());
@@ -106,10 +116,27 @@ public class CtrlTempo {
 	}
 
 	@RequestMapping(value = { "/salvarProdutoAtivo" }, method = RequestMethod.POST)
-	public String salvarProdutoAtivo(@ModelAttribute("produto") Produto produto) {
+	public String salvarProdutoAtivo(@ModelAttribute("produto") Produto produto,
+			@ModelAttribute("quantidade") String quantidade, @ModelAttribute("chaveMaquina") Long maquinaChave) {
 
-		System.out.println(produto.getNomeProduto());
+		produto = produtoService.pesquisarProdutoPorChave(produto.getChaveProduto());
+		Maquina maquina = maquinaService.pesquisarMaquinaPorChave(maquinaChave);
+		Transacao transacao;
+		ItemTransacao itemTransacao = new ItemTransacao();
+		List<ItemTransacao> itens = new ArrayList<ItemTransacao>();
 
+		if ((transacaoService.isTransacaoAtiva(maquinaChave.intValue())) != null) {
+			itemTransacao.setMaquina(maquina);
+			itemTransacao.setDataTransacao(itemTransacaoService.calcularTempo());
+			itemTransacao.setProduto(produto);
+			itemTransacao.setQuantidade(Integer.parseInt(quantidade));
+			itens.add(itemTransacao);
+
+			transacao = transacaoService.isTransacaoAtiva(maquinaChave.intValue());
+			transacao.setItensTransacao(itens);
+			itemTransacao.setTransacao(transacao);
+			transacaoService.salvarTransacao(transacao);
+		}
 		return "redirect:/tempo/temposAtivos";
 	}
 
@@ -139,18 +166,32 @@ public class CtrlTempo {
 	}
 
 	@RequestMapping(value = { "/carregarProdutos" }, method = RequestMethod.GET)
-	public @ResponseBody Map<String, Object> carregarProdutos(ModelAndView model) {
+	public @ResponseBody String carregarProdutos(HttpServletResponse response) {
 		List<Produto> produtos = new ArrayList<Produto>();
+		List<ProdutoDTO> produtosDTO = new ArrayList<ProdutoDTO>();
+//		produtos = produtoService.listarProdutos();
+		// produtos.get(0).setCategorias(null);
+		// System.out.println(
+		// MapperDTO.INSTANCE.produtoToProdutoDTO(produtos.get(0)).getNomeProduto());
+		// model.addObject("produtos", produtos);
+//		return MapperDTO.INSTANCE.produtoToProdutoDTO(produtoDAO.listarProdutosSemCategoria().get(0));
+		String result =null;
+		ObjectMapper mapper = new ObjectMapper();
+		Hibernate4Module hbm = new Hibernate4Module();
+		hbm.enable(Hibernate4Module.Feature.FORCE_LAZY_LOADING);
+		mapper.registerModule(hbm);
+
+		ObjectWriter w = mapper.writer();
+
 		try {
-			
-			for (Produto produto : produtoService.listarProdutos()) {
-				produtos.add(produto);			
-			}
-			model.addObject("produtos",produtos);
-		} catch (Exception e) {
-
+			result = w.writeValueAsString( produtoDAO.listarProdutos());
+			System.out.println(result);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return model.getModelMap();
-
+		return result;
+		
 	}
+
 }

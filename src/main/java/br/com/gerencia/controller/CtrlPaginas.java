@@ -1,7 +1,6 @@
 package br.com.gerencia.controller;
 
 import java.io.File;
-import java.util.Collection;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,6 +23,7 @@ import br.com.gerencia.service.ContaUsuarioService;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 @Controller
+@SuppressWarnings("unused")
 public class CtrlPaginas {
 	
 	@Autowired

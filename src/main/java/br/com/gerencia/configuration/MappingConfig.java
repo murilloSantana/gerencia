@@ -74,7 +74,7 @@ public class MappingConfig extends WebMvcConfigurerAdapter implements Applicatio
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setEnableSpringELCompiler(true);
 		Set<IDialect> additionalDialects = new HashSet<IDialect>();
-		additionalDialects.add(dialect());
+		additionalDialects.add( dialect() );
 		additionalDialects.add( timeDialect() );
 		templateEngine.setAdditionalDialects(additionalDialects);
 		templateEngine.setTemplateResolver(templateResolver());

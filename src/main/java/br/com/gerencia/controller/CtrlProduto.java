@@ -101,25 +101,28 @@ public class CtrlProduto {
 	}
 
 	@RequestMapping(value = { "/salvar" }, method = RequestMethod.POST)
-	public String salvarProduto(@ModelAttribute(value = "produto") Produto produto, HttpServletRequest request) {
-		InformacoesTecnicas informacoesTecnicas = (InformacoesTecnicas) request.getSession().getAttribute("info");
+	public String salvarProduto(@ModelAttribute(value = "produto") ProdutoDTO produtoDTO, HttpServletRequest request) {
+//		InformacoesTecnicas informacoesTecnicas = (InformacoesTecnicas) request.getSession().getAttribute("info");
 
-		produto.setPrecoCompra(formatador.StringToDouble(produto.getPrecoCompraNoFormatado()));
-		produto.setPrecoUnitario(formatador.StringToDouble(produto.getPrecoUnitarioNoFormatado()));
-		produto.setInfoTecnicas(informacoesTecnicas);
-		List<Categoria> listaCategoria = new ArrayList<Categoria>();
+		produtoDTO.setPrecoCompra(formatador.StringToDouble(produtoDTO.getPrecoCompraNoFormatado()));
+		produtoDTO.setPrecoUnitario(formatador.StringToDouble(produtoDTO.getPrecoUnitarioNoFormatado()));
+		System.out.println(produtoDTO.getPrecoUnitario());
+		//		produtoDTO.setInfoTecnicas(informacoesTecnicas);
+//		List<CategoriaDTO> listaCategoria = new ArrayList<CategoriaDTO>();
+		List<ProdutoDTO> produtos = new ArrayList<ProdutoDTO>();
+		produtos.add(produtoDTO);
+//		for (Long categoriaId : produto.getCategoriaId()) {
+//			CategoriaDTO categoriaDTO = MapperDTO.INSTANCE.categoriaToCategoriaDTO(categoriaService.pesquisarCategoriaPorChave(categoriaId));
+//			categoriaDTO.setProdutos(produtos);
+//			listaCategoria.add(categoriaDTO);
+//		}
+//
+//		produtoDTO.setCategorias(listaCategoria);
+////		for (Categoria categoria : listaCategoria) {
+//			categoriaService.salvarCategoria(categoria);
+//		}
 
-		for (Long categoriaId : produto.getCategoriaId()) {
-			Categoria categoria = categoriaService.pesquisarCategoriaPorChave(categoriaId);
-			listaCategoria.add(categoria);
-		}
-
-		produto.setCategorias(listaCategoria);
-		for (Categoria categoria : listaCategoria) {
-			categoriaService.salvarCategoria(categoria);
-		}
-
-		produtoService.salvarProduto(produto);
+		produtoService.salvarProduto(MapperDTO.INSTANCE.produtoDTOToProduto(produtoDTO));
 
 		return "redirect:/produto/cadastro";
 	}

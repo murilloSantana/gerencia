@@ -28,31 +28,33 @@
 </head>
 <body>
 	
-	<div th:fragment="ctrl-produto">
+	<div th:fragment="ctrl-produto(chaveMaquina,itensTransacao)">
 		
 		<div class="row">
 		  <form class="col s12"th:action="@{/tempo/salvarProdutoAtivo}" method="post" th:object="${produto}">
 			
 				<div class="input-field left black-text col s5 m4 l3">
-					<input id="cad-cod-prod-temp" class="" type="text" th:field="*{codigoBarras}" />
+					<input id="cad-cod-prod-temp" class="" type="text" th:field="*{codigoBarras}" onkeyup="preencheCamposCodigo(this.value)" maxlength="14"/>
 					<label for="cad-cod-prod-temp" id="label-cod-prod-temp">Código de Barras</label>
 				</div>
 	
 				<div class="input-field left black-text col s5 m4 l3">
 					<input id="cad-nome-prod-temp" type="text" th:field="*{nomeProduto}" />
-					<label for="cad-nome-prod-temp">Nome do Produto</label>
+					<label for="cad-nome-prod-temp" id="label-nome-prod-temp" >Nome do Produto</label>
 				</div>
 				
 		     	<div class="input-field left black-text col s4 m3 l2">
-					<input id="cad-qtd-prod" class="" type="number" min="1" />
+					<input id="cad-qtd-prod" class="" type="number" name="quantidade" min="1" />
 					<label for="cad-qtd-prod">Quantidade</label>
 				</div>
 				
 				<div class="input-field left black-text col s4 m3 l2">
 					<input id="cad-pre-prod-temp" class="" type="text" th:field="*{precoUnitario}" />
-					<label for="cad-pre-prod-temp">Preço</label>
+					<label for="cad-pre-prod-temp" id="label-pre-prod-temp">Preço</label>
 				</div>
 				<input type="hidden" name="chaveMaquina" th:value="${chaveMaquina}">
+				<input id="cad-chave-prod-temp" type="hidden" th:field="*{chaveProduto}">
+				
 				<button class="btn btn-form col s4 m3 l2" type="submit">Salvar</button>
 			</form>
 		</div>

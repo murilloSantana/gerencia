@@ -11,11 +11,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
@@ -27,34 +25,34 @@ public class ConfigurationHibernate {
 	private Environment environment;
 
 	
-//	@Bean
-//	public LocalSessionFactoryBean sessionFactory( ) {
-//
-//		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-//		sessionFactory.setDataSource(dataSource());
-//		sessionFactory.setPackagesToScan(new String[] { "br.com.gerencia.model" });
-//		sessionFactory.setHibernateProperties(hibernateProperties());
-//		return sessionFactory;
-//	}
-	@Autowired
-	DataSource dataSource;
-
 	@Bean
-	public JdbcTemplate getJdbcTemplate() {
-		return new JdbcTemplate(dataSource);
+	public LocalSessionFactoryBean sessionFactory( ) {
+
+		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+		sessionFactory.setDataSource(dataSource());
+		sessionFactory.setPackagesToScan(new String[] { "br.com.gerencia.model" });
+		sessionFactory.setHibernateProperties(hibernateProperties());
+		return sessionFactory;
 	}
+//	@Autowired
+//	DataSource dataSource;
+//
+//	@Bean
+//	public JdbcTemplate getJdbcTemplate() {
+//		return new JdbcTemplate(dataSource);
+//	}
 //	https://www.mkyong.com/spring/spring-embedded-database-examples/
 	@Bean
 	public DataSource dataSource() {
-		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-		EmbeddedDatabase db = builder
-			.setType(EmbeddedDatabaseType.HSQL) //.H2 or .DERBY
-			.addScript("db/sql/create-db.sql")
-			.addScript("db/sql/insert-data.sql")
-			.build();
-//		JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
-//		dsLookup.setResourceRef(true);
-//		DataSource dataSource = dsLookup.getDataSource("java:/gerencia");
+//		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+//		EmbeddedDatabase db = builder
+//			.setType(EmbeddedDatabaseType.HSQL) //.H2 or .DERBY
+//			.addScript("db/sql/create-db.sql")
+//			.addScript("db/sql/insert-data.sql")
+//			.build();
+		JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
+		dsLookup.setResourceRef(true);
+		DataSource dataSource = dsLookup.getDataSource("java:/gerencia");
 		//DataSource dataSource = dsLookup.getDataSource("java:/teste");
 	
 
@@ -66,7 +64,7 @@ public class ConfigurationHibernate {
 //				.setUsername(environment.getRequiredProperty("jdbc.username"));
 //		dataSource
 //				.setPassword(environment.getRequiredProperty("jdbc.password"));
-		return db;
+		return dataSource;
 	}
 
 	@Bean
