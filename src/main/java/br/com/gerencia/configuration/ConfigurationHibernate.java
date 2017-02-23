@@ -41,7 +41,6 @@ public class ConfigurationHibernate {
 //	public JdbcTemplate getJdbcTemplate() {
 //		return new JdbcTemplate(dataSource);
 //	}
-//	https://www.mkyong.com/spring/spring-embedded-database-examples/
 	@Bean
 	public DataSource dataSource() {
 //		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
