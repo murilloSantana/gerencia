@@ -46,6 +46,7 @@ public class CtrlProduto {
 
 	@RequestMapping(value = { "/trataInformacoesTecnicas" }, method = RequestMethod.GET)
 	public ModelAndView informacoesTecnicasPage(ModelAndView model,
+			@RequestParam(value = "codigoBarras") Long codigoBarras,
 			@RequestParam(value = "nomeProduto") String nomeProduto,
 			@RequestParam(value = "precoCompra") String precoCompra,
 			@RequestParam(value = "categorias") Long[] categorias,
@@ -53,6 +54,7 @@ public class CtrlProduto {
 			@RequestParam(value = "descricaoProduto") String descricaoProduto, HttpServletRequest request) {
 
 		model.addObject("informacoesTecnicas", new InformacoesTecnicas());
+		produto.setCodigoBarras(codigoBarras);
 		produto.setNomeProduto(nomeProduto);
 		produto.setPrecoCompra(formatador.StringToDouble(precoCompra));		
 		produto.setCategoriaId(Arrays.asList(categorias));

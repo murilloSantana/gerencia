@@ -183,9 +183,10 @@ var verificaCodigoBarras = function(codigo) {
 	}
 };
 
-var inserirInformacoesTecnicas = function(nome, precoCompra, categorias,
+var inserirInformacoesTecnicas = function(codigoBarras,nome, precoCompra, categorias,
 		precoVenda, descricao) {
-
+	
+	var codigoBarras = $('#cad-codigo-barras-prod').val();
 	var nomeProduto = $('#cad-nome-prod').val();
 	var precoCompra = $('#cad-preco-compra').val();
 	var categorias = $('#cad-categoria').val();
@@ -193,13 +194,14 @@ var inserirInformacoesTecnicas = function(nome, precoCompra, categorias,
 	var descricaoProduto = $('#cad-desc-prod').val();
 
 	var produto = {
+		"codigoBarras":codigoBarras,	
 		"nomeProduto" : nomeProduto,
 		"precoCompra" : precoCompra,
 		"categorias" : categorias,
 		"precoUnitario" : precoUnitario,
 		"descricaoProduto" : descricaoProduto
 	};
-	var urlProduto = "?nomeProduto=" + nomeProduto + "&precoCompra="
+	var urlProduto = "?codigoBarras="+ codigoBarras +"&nomeProduto=" + nomeProduto + "&precoCompra="
 			+ precoCompra + "&categorias=" + categorias + "&precoUnitario="
 			+ precoUnitario + "&descricaoProduto=" + descricaoProduto;
 	geraToken();
