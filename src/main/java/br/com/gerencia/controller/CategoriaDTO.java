@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id")
+		  property = "chaveCategoria")
 public class CategoriaDTO {
 
 	private Long chaveCategoria;
@@ -15,18 +15,6 @@ public class CategoriaDTO {
 
 	private ProdutoDTO produto;
 	
-	private int id;
-	
-	
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public Long getChaveCategoria() {
 		return chaveCategoria;
 	}

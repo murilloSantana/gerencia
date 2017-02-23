@@ -135,7 +135,8 @@ public class CtrlTempo {
 			transacao = transacaoService.isTransacaoAtiva(maquinaChave.intValue());
 			transacao.setItensTransacao(itens);
 			itemTransacao.setTransacao(transacao);
-			transacaoService.salvarTransacao(transacao);
+			itemTransacaoService.salvarItemTransacao(itemTransacao);
+//			transacaoService.salvarTransacao(transacao);
 		}
 		return "redirect:/tempo/temposAtivos";
 	}
@@ -166,7 +167,7 @@ public class CtrlTempo {
 	}
 
 	@RequestMapping(value = { "/carregarProdutos" }, method = RequestMethod.GET)
-	public @ResponseBody String carregarProdutos(HttpServletResponse response) {
+	public @ResponseBody List<Produto> carregarProdutos(HttpServletResponse response) {
 		List<Produto> produtos = new ArrayList<Produto>();
 		List<ProdutoDTO> produtosDTO = new ArrayList<ProdutoDTO>();
 //		produtos = produtoService.listarProdutos();
@@ -185,12 +186,12 @@ public class CtrlTempo {
 
 		try {
 			result = w.writeValueAsString( produtoDAO.listarProdutos());
-			System.out.println(result);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return result;
+
+		return produtoDAO.listarProdutos();
 		
 	}
 

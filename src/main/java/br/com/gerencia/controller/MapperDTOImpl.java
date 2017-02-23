@@ -8,7 +8,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2016-12-24T14:48:03-0200",
+    date = "2017-01-21T12:47:57-0200",
     comments = "version: 1.1.0.Final, compiler: javac, environment: Java 1.8.0_101 (Oracle Corporation)"
 )
 public class MapperDTOImpl implements MapperDTO {
@@ -35,21 +35,24 @@ public class MapperDTOImpl implements MapperDTO {
 
         ProdutoDTO produtoDTO_ = new ProdutoDTO();
 
-        produtoDTO_.setId( produto.getId() );
         produtoDTO_.setChaveProduto( produto.getChaveProduto() );
         produtoDTO_.setNomeProduto( produto.getNomeProduto() );
         produtoDTO_.setCodigoBarras( produto.getCodigoBarras() );
         produtoDTO_.setPrecoCompra( produto.getPrecoCompra() );
         produtoDTO_.setPrecoUnitario( produto.getPrecoUnitario() );
         produtoDTO_.setDescricaoProduto( produto.getDescricaoProduto() );
-        produtoDTO_.setInfoTecnicas( produto.getInfoTecnicas() );
         produtoDTO_.setPrecoCompraNoFormatado( produto.getPrecoCompraNoFormatado() );
         produtoDTO_.setPrecoUnitarioNoFormatado( produto.getPrecoUnitarioNoFormatado() );
-        List<Long> list = produto.getCategoriaId();
+        List<CategoriaDTO> list = categoriaListToCategoriaDTOList( produto.getCategorias() );
         if ( list != null ) {
-            produtoDTO_.setCategoriaId(       new ArrayList<Long>( list )
+            produtoDTO_.setCategorias( list );
+        }
+        List<Long> list_ = produto.getCategoriaId();
+        if ( list_ != null ) {
+            produtoDTO_.setCategoriaId(       new ArrayList<Long>( list_ )
             );
         }
+        produtoDTO_.setInfoTecnicas( produto.getInfoTecnicas() );
 
         return produtoDTO_;
     }
@@ -62,7 +65,6 @@ public class MapperDTOImpl implements MapperDTO {
 
         Produto produto = new Produto();
 
-        produto.setId( produtoDTO.getId() );
         produto.setChaveProduto( produtoDTO.getChaveProduto() );
         produto.setNomeProduto( produtoDTO.getNomeProduto() );
         produto.setCodigoBarras( produtoDTO.getCodigoBarras() );
@@ -71,9 +73,13 @@ public class MapperDTOImpl implements MapperDTO {
         produto.setDescricaoProduto( produtoDTO.getDescricaoProduto() );
         produto.setPrecoCompraNoFormatado( produtoDTO.getPrecoCompraNoFormatado() );
         produto.setPrecoUnitarioNoFormatado( produtoDTO.getPrecoUnitarioNoFormatado() );
-        List<Long> list = produtoDTO.getCategoriaId();
+        List<Categoria> list = categoriaDTOListToCategoriaList( produtoDTO.getCategorias() );
         if ( list != null ) {
-            produto.setCategoriaId(       new ArrayList<Long>( list )
+            produto.setCategorias( list );
+        }
+        List<Long> list_ = produtoDTO.getCategoriaId();
+        if ( list_ != null ) {
+            produto.setCategoriaId(       new ArrayList<Long>( list_ )
             );
         }
         produto.setInfoTecnicas( produtoDTO.getInfoTecnicas() );
@@ -87,15 +93,14 @@ public class MapperDTOImpl implements MapperDTO {
             return null;
         }
 
-        CategoriaDTO categoriaDTO = new CategoriaDTO();
+        CategoriaDTO categoriaDTO_ = new CategoriaDTO();
 
-        categoriaDTO.setId( categoria.getId() );
-        categoriaDTO.setChaveCategoria( categoria.getChaveCategoria() );
-        categoriaDTO.setNome( categoria.getNome() );
-        categoriaDTO.setDescricao( categoria.getDescricao() );
-        categoriaDTO.setProduto( produtoToProdutoDTO( categoria.getProduto() ) );
+        categoriaDTO_.setChaveCategoria( categoria.getChaveCategoria() );
+        categoriaDTO_.setNome( categoria.getNome() );
+        categoriaDTO_.setDescricao( categoria.getDescricao() );
+        categoriaDTO_.setProduto( produtoToProdutoDTO( categoria.getProduto() ) );
 
-        return categoriaDTO;
+        return categoriaDTO_;
     }
 
     @Override
@@ -104,14 +109,39 @@ public class MapperDTOImpl implements MapperDTO {
             return null;
         }
 
-        Categoria categoria = new Categoria();
+        Categoria categoria_ = new Categoria();
 
-        categoria.setId( categoriaDTO.getId() );
-        categoria.setChaveCategoria( categoriaDTO.getChaveCategoria() );
-        categoria.setNome( categoriaDTO.getNome() );
-        categoria.setDescricao( categoriaDTO.getDescricao() );
-        categoria.setProduto( produtoDTOToProduto( categoriaDTO.getProduto() ) );
+        categoria_.setChaveCategoria( categoriaDTO.getChaveCategoria() );
+        categoria_.setNome( categoriaDTO.getNome() );
+        categoria_.setDescricao( categoriaDTO.getDescricao() );
+        categoria_.setProduto( produtoDTOToProduto( categoriaDTO.getProduto() ) );
 
-        return categoria;
+        return categoria_;
+    }
+
+    protected List<CategoriaDTO> categoriaListToCategoriaDTOList(List<Categoria> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<CategoriaDTO> list_ = new ArrayList<CategoriaDTO>();
+        for ( Categoria categoria : list ) {
+            list_.add( categoriaToCategoriaDTO( categoria ) );
+        }
+
+        return list_;
+    }
+
+    protected List<Categoria> categoriaDTOListToCategoriaList(List<CategoriaDTO> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<Categoria> list_ = new ArrayList<Categoria>();
+        for ( CategoriaDTO categoriaDTO : list ) {
+            list_.add( categoriaDTOToCategoria( categoriaDTO ) );
+        }
+
+        return list_;
     }
 }

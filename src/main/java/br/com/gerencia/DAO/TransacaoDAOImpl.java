@@ -60,16 +60,23 @@ public class TransacaoDAOImpl extends AbstractDAO<Long, Transacao> implements Tr
 	public Transacao isTransacaoAtiva(Integer chaveMaquina) {
 		try {
 
-			SQLQuery query = getSession().createSQLQuery("SELECT DISTINCT tr.* " + "FROM item_transacao it "
-					+ "INNER JOIN transacao tr " + "ON it.transacao_id = tr.chave_transacao " + "INNER JOIN maquina m "
-					+ "ON it.maquina_id = m.chave_maquina " + "WHERE tr.isativa = true "
+			SQLQuery query = getSession().createSQLQuery(
+					  "SELECT DISTINCT tr.* " 
+			        + "FROM item_transacao it "
+					+ "INNER JOIN transacao tr " 
+			        + "ON it.transacao_id = tr.chave_transacao "
+					+ "INNER JOIN maquina m "
+					+ "ON it.maquina_id = m.chave_maquina "
+					+ "WHERE tr.isativa = true "
 					+ "AND m.chave_maquina = :chaveMaquina");
+
 			query.setParameter("chaveMaquina", chaveMaquina);
 			query.addEntity(Transacao.class);
 
-			Transacao transacao = (Transacao) query.uniqueResult();
+			List<Transacao> transacao = (List<Transacao>) query.list();
+			System.out.println(transacao.get(0).getChaveTransacao());
 
-			return transacao;
+			return transacao.get(0);
 		} catch (Exception e) {
 			return null;
 		}

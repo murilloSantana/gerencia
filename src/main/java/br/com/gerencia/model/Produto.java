@@ -1,6 +1,5 @@
 package br.com.gerencia.model;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -54,8 +52,8 @@ public class Produto{
 //	@ManyToMany(cascade=CascadeType.ALL)
 //	@JoinTable(name = "produto_categoria", joinColumns = { @JoinColumn(name = "chave_produto") }, inverseJoinColumns = {
 //			@JoinColumn(name = "chave_categoria") })
-	@OneToMany(mappedBy = "produto", targetEntity = Categoria.class,cascade=CascadeType.ALL)
-	@JsonIgnore
+	@OneToMany(mappedBy = "produto", targetEntity = Categoria.class,cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+//	@JsonIgnore
 	private List<Categoria> categorias;
 //	@OneToMany(mappedBy = "produto", targetEntity = ItemTransacao.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Transient
@@ -175,6 +173,15 @@ public class Produto{
 
 	public Long getChaveProduto() {
 		return chaveProduto;
+	}
+
+	@Override
+	public String toString() {
+		return "Produto [chaveProduto=" + chaveProduto + ", nomeProduto=" + nomeProduto + ", codigoBarras="
+				+ codigoBarras + ", precoCompra=" + precoCompra + ", precoUnitario=" + precoUnitario
+				+ ", descricaoProduto=" + descricaoProduto + ", infoTecnicas=" + infoTecnicas + ", categorias="
+				+ categorias + ", precoCompraNoFormatado=" + precoCompraNoFormatado + ", precoUnitarioNoFormatado="
+				+ precoUnitarioNoFormatado + ", categoriaId=" + categoriaId + "]";
 	}
 
 

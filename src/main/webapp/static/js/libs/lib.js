@@ -5,7 +5,21 @@ $(document).ready(function() {
 	// $('.modal-close').modal('close');
 
 
-	$("#cad-nome-prod-temp").easyAutocomplete(getProdutos());
+	
+	$("#cad-nome-prod-temp0").easyAutocomplete(getProdutos(0));
+	$("#cad-nome-prod-temp1").easyAutocomplete(getProdutos(1));
+	$("#cad-nome-prod-temp3").easyAutocomplete(getProdutos(2));
+	$("#cad-nome-prod-temp4").easyAutocomplete(getProdutos(3));
+	$("#cad-nome-prod-temp5").easyAutocomplete(getProdutos(4));
+	$("#cad-nome-prod-temp6").easyAutocomplete(getProdutos(5));
+	$("#cad-nome-prod-temp7").easyAutocomplete(getProdutos(6));
+	$("#cad-nome-prod-temp8").easyAutocomplete(getProdutos(7));
+	$("#cad-nome-prod-temp9").easyAutocomplete(getProdutos(8));
+	$("#cad-nome-prod-temp10").easyAutocomplete(getProdutos(9));
+	$("#cad-nome-prod-temp11").easyAutocomplete(getProdutos(10));
+	$("#cad-nome-prod-temp12").easyAutocomplete(getProdutos(11));
+	$("#cad-nome-prod-temp13").easyAutocomplete(getProdutos(12));
+
 
 });
 
@@ -20,8 +34,6 @@ var preencheCamposCodigo = function(codigo){
 		    async: false,
 
 		    success: function( data ){
-		    	console.log(data)
-
 		        produto = data.find(function(value){
 		        	return value.codigoBarras == codigo;
 		        });        
@@ -37,8 +49,9 @@ var preencheCamposCodigo = function(codigo){
 	 }
 };
 
-var getProdutos = function(){
-	var retorno
+var getProdutos = function(id){
+	var retorno;
+
 	$.ajax({
 	    url:    "/gerencia/tempo/carregarProdutos",
 	    type:   "get",
@@ -48,11 +61,10 @@ var getProdutos = function(){
 	    success: function( data ){
 	        retorno = data;        
 			$.cookie('listaProdutos',JSON.stringify(retorno));
-			console.log(data)
 	    }
 		
 	});
-	console.log(retorno)
+
 	var produtos = {
 			data:retorno,
 			getValue: "nomeProduto",
@@ -61,17 +73,32 @@ var getProdutos = function(){
 					enabled: true
 				},
 				onSelectItemEvent:function(){
-					var codigoBarras = $('#cad-nome-prod-temp').getSelectedItemData().codigoBarras;
-					var precoUnitario = $('#cad-nome-prod-temp').getSelectedItemData().precoUnitario;
-					var chaveProduto = $('#cad-nome-prod-temp').getSelectedItemData().chaveProduto;
-					$("#cad-cod-prod-temp").val(codigoBarras).trigger("change");
-					$("#cad-pre-prod-temp").val(precoUnitario).trigger("change");
-					$("#cad-chave-prod-temp").val(chaveProduto).trigger("change");
+					var codigoBarras = $('#cad-nome-prod-temp'+id).getSelectedItemData().codigoBarras;
+					var precoUnitario = $('#cad-nome-prod-temp'+id).getSelectedItemData().precoUnitario;
+					var chaveProduto = $('#cad-nome-prod-temp'+id).getSelectedItemData().chaveProduto;
+					$("#cad-cod-prod-temp"+id).val(codigoBarras).trigger("change");
+					$("#cad-pre-prod-temp"+id).val(precoUnitario).trigger("change");
+					$("#cad-chave-prod-temp"+id).val(chaveProduto).trigger("change");
 				}
 			},
 			adjustWidth: false
 	}
-	return produtos
+//	var arrayNomesFormatado='{"nome":"murillo"}';
+//	var arrayNomesFormatado='{';
+//
+//	retorno.forEach(function(obj){
+//		arrayNomesFormatado+='"'+obj.nomeProduto+'"'+':null,';
+		
+
+
+//	})
+//	arrayNomesFormatado+="nome:null}";
+//	arrayNomesFormatado = arrayNomesFormatado.slice(0,arrayNomesFormatado.lastIndexOf(","))
+//	arrayNomesFormatado+='}';
+//	console.log(JSON.parse(arrayNomesFormatado))
+	
+//	return JSON.parse(arrayNomesFormatado);
+	return produtos;
 }
 //necessario para pegar o CSRF-TOKEN
 var geraToken = function() {

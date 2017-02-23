@@ -86,7 +86,7 @@ public class CtrlProduto {
 			@ModelAttribute("info") InformacoesTecnicas informacoesTecnicas) {
 		try {
 
-			model.addAttribute("produto", produto == null ? new Produto() : produto);
+//			model.addAttribute("produto", produto == null ? new Produto() : produto);
 
 			if (informacoesTecnicas != null) {
 				request.getSession().setAttribute("info", informacoesTecnicas);
@@ -101,29 +101,34 @@ public class CtrlProduto {
 	}
 
 	@RequestMapping(value = { "/salvar" }, method = RequestMethod.POST)
-	public String salvarProduto(@ModelAttribute(value = "produto") ProdutoDTO produtoDTO, HttpServletRequest request) {
+	public String salvarProduto(@ModelAttribute(value = "produto") Produto produtoDTO, HttpServletRequest request){
 //		InformacoesTecnicas informacoesTecnicas = (InformacoesTecnicas) request.getSession().getAttribute("info");
 
 		produtoDTO.setPrecoCompra(formatador.StringToDouble(produtoDTO.getPrecoCompraNoFormatado()));
 		produtoDTO.setPrecoUnitario(formatador.StringToDouble(produtoDTO.getPrecoUnitarioNoFormatado()));
-		System.out.println(produtoDTO.getPrecoUnitario());
+
 		//		produtoDTO.setInfoTecnicas(informacoesTecnicas);
-//		List<CategoriaDTO> listaCategoria = new ArrayList<CategoriaDTO>();
-		List<ProdutoDTO> produtos = new ArrayList<ProdutoDTO>();
-		produtos.add(produtoDTO);
-//		for (Long categoriaId : produto.getCategoriaId()) {
+		List<Categoria> listaCategoria = new ArrayList<Categoria>();
+//		List<ProdutoDTO> produtos = new ArrayList<ProdutoDTO>();
+//		produtos.add(produtoDTO);
+		for (Long categoriaId : produtoDTO.getCategoriaId()) {
+
 //			CategoriaDTO categoriaDTO = MapperDTO.INSTANCE.categoriaToCategoriaDTO(categoriaService.pesquisarCategoriaPorChave(categoriaId));
-//			categoriaDTO.setProdutos(produtos);
-//			listaCategoria.add(categoriaDTO);
-//		}
-//
-//		produtoDTO.setCategorias(listaCategoria);
-////		for (Categoria categoria : listaCategoria) {
+//			categoriaDTO.setProdutos(produtoDTO);
+			Categoria categoriaDTO = categoriaService.pesquisarCategoriaPorChave(categoriaId);
+
+			categoriaDTO.setProduto(produtoDTO);
+			listaCategoria.add(categoriaDTO);
+		}
+
+		produtoDTO.setCategorias(listaCategoria);
+		for (Categoria categoria : listaCategoria) {
+//			categoriaService.salvarCategoria(MapperDTO.INSTANCE.categoriaDTOToCategoria(categoria));
 //			categoriaService.salvarCategoria(categoria);
-//		}
+		}
 
-		produtoService.salvarProduto(MapperDTO.INSTANCE.produtoDTOToProduto(produtoDTO));
-
+//		produtoService.salvarProduto(MapperDTO.INSTANCE.produtoDTOToProduto(produtoDTO));
+		produtoService.salvarProduto(produtoDTO);
 		return "redirect:/produto/cadastro";
 	}
 }

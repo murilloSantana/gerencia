@@ -49,7 +49,7 @@ public abstract class AbstractDAO<PK extends Serializable, T> extends DefaultAbs
 
 	public Boolean salvar(T obj) {
 		try {
-			getSession().merge(obj);
+			getSession().save(obj);
 			return true;
 		} catch (Exception e) {
 			return false;

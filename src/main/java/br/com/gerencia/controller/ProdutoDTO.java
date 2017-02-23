@@ -5,11 +5,12 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import br.com.gerencia.model.Categoria;
 import br.com.gerencia.model.InformacoesTecnicas;
-import br.com.gerencia.model.ItemTransacao;
+
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id")
+		  property = "chaveProduto")
 public class ProdutoDTO {
 
 	private Long chaveProduto;
@@ -19,30 +20,18 @@ public class ProdutoDTO {
 	private Double precoUnitario;
 	private String descricaoProduto;
 	private InformacoesTecnicas infoTecnicas;
-	private List<ItemTransacao> itensTransacao;
+	private List<CategoriaDTO> categorias;
 	private String precoCompraNoFormatado;
 	private String precoUnitarioNoFormatado;
 	private List<Long> categoriaId;
-	private int id;
-	
-	
+	// private Unidade unidade;
+
+	// private Fornecedor fornecedor;
 
 	public ProdutoDTO() {
 		super();
 	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Long getChaveProduto() {
-		return chaveProduto;
-	}
-
+	
 	public void setChaveProduto(Long chaveProduto) {
 		this.chaveProduto = chaveProduto;
 	}
@@ -87,22 +76,6 @@ public class ProdutoDTO {
 		this.descricaoProduto = descricaoProduto;
 	}
 
-	public InformacoesTecnicas getInfoTecnicas() {
-		return infoTecnicas;
-	}
-
-	public void setInfoTecnicas(InformacoesTecnicas infoTecnicas) {
-		this.infoTecnicas = infoTecnicas;
-	}
-
-	public List<ItemTransacao> getItensTransacao() {
-		return itensTransacao;
-	}
-
-	public void setItensTransacao(List<ItemTransacao> itensTransacao) {
-		this.itensTransacao = itensTransacao;
-	}
-
 	public String getPrecoCompraNoFormatado() {
 		return precoCompraNoFormatado;
 	}
@@ -119,6 +92,14 @@ public class ProdutoDTO {
 		this.precoUnitarioNoFormatado = precoUnitarioNoFormatado;
 	}
 
+	public List<CategoriaDTO> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<CategoriaDTO> categorias) {
+		this.categorias = categorias;
+	}
+
 	public List<Long> getCategoriaId() {
 		return categoriaId;
 	}
@@ -126,5 +107,19 @@ public class ProdutoDTO {
 	public void setCategoriaId(List<Long> categoriaId) {
 		this.categoriaId = categoriaId;
 	}
+
+	public InformacoesTecnicas getInfoTecnicas() {
+		return infoTecnicas;
+	}
+
+	public void setInfoTecnicas(InformacoesTecnicas infoTecnicas) {
+		this.infoTecnicas = infoTecnicas;
+	}
+
+	public Long getChaveProduto() {
+		return chaveProduto;
+	}
+
+
 
 }
